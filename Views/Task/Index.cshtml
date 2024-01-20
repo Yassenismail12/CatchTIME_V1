@@ -1,0 +1,97 @@
+﻿@model IEnumerable<TESTT.Models.Task>
+
+
+<h1>Task Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Task Title
+            </th>
+            <th>
+                Task Priority
+            </th>
+            <th>
+                Task Difficulty
+            </th>
+            <th>
+                Task Status
+            </th>
+            <!-- Add more columns as needed -->
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var task in Model.Where(t => !t.TaskStatus))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => task.TaskTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => task.TaskPriority)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => task.TaskDifficulty)
+                </td>
+                <td>
+                    <input type="checkbox" class="status-checkbox" data-task-id="@task.TaskId" checked="@task.TaskStatus" />
+                </td>
+                <!-- Add more columns as needed -->
+                <td>
+                    <a asp-action="Edit" asp-route-id="@task.TaskId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@task.TaskId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@task.TaskId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<h2>Tasks with Status 'True'</h2>
+<ul id="completedTasks">
+    @foreach (var task in Model.Where(t => t.TaskStatus))
+    {
+        <li>
+            <input type="checkbox" class="status-checkbox" data-task-id="@task.TaskId" checked="@task.TaskStatus" />
+            @Html.DisplayFor(modelItem => task.TaskTitle) |
+            <a asp-action="Edit" asp-route-id="@task.TaskId">Edit</a> |
+            <a asp-action="Details" asp-route-id="@task.TaskId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@task.TaskId">Delete</a>
+        </li>
+    }
+</ul>
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.status-checkbox').change(function () {
+                var taskId = $(this).data('task-id');
+                updateTaskStatus(taskId);
+            });
+        });
+
+        function updateTaskStatus(taskId) {
+            $.ajax({
+                type: 'POST',
+                url: '/Task/UpdateStatus',
+                data: { taskId: taskId },
+                success: function (result) {
+                    // Optionally, you can update the UI or perform additional actions
+                    console.log('Task status updated successfully.');
+                    location.reload();
+                },
+                error: function (error) {
+                    console.error('Error updating task status: ', error);
+                }
+            });
+        }
+    </script>
+
+}
+

@@ -26,7 +26,7 @@ namespace TESTT.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=YASSEN-PC\\SERVR;Database=CatchTIME;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-32VL26T\\SQLEXPRESS;Database=CatchTime;Trusted_Connection=True;");
             }
         }
 
@@ -45,10 +45,10 @@ namespace TESTT.Models
                     .IsUnicode(false)
                     .HasColumnName("list_category");
 
-                entity.Property(e => e.ListName)
+                entity.Property(e => e.ListTitle)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("list_name");
+                    .HasColumnName("list_title");
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
@@ -93,45 +93,45 @@ namespace TESTT.Models
             modelBuilder.Entity<Task>(entity =>
             {
                 entity.Property(e => e.TaskId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("task_id");
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("TaskId");
 
-                entity.Property(e => e.ListId).HasColumnName("list_id");
+                entity.Property(e => e.ListId).HasColumnName("ListId");
 
-                entity.Property(e => e.ProjectId).HasColumnName("project_id");
+                entity.Property(e => e.ProjectId).HasColumnName("ProjectId");
 
-                entity.Property(e => e.TaskActualDuration).HasColumnName("task_actual_duration");
+                entity.Property(e => e.TaskActualDuration).HasColumnName("TaskActualDuration");
 
                 entity.Property(e => e.TaskDate)
                     .HasColumnType("date")
-                    .HasColumnName("task_date");
+                    .HasColumnName("TaskDate");
 
-                entity.Property(e => e.TaskDifficulty).HasColumnName("task_difficulty");
+                entity.Property(e => e.TaskDifficulty).HasColumnName("TaskDifficulty");
 
-                entity.Property(e => e.TaskDuration).HasColumnName("task_duration");
+                entity.Property(e => e.TaskDuration).HasColumnName("TaskDuration");
 
-                entity.Property(e => e.TaskEndTime).HasColumnName("task_end_time");
+                entity.Property(e => e.TaskEndTime).HasColumnName("TaskEndTime");
 
-                entity.Property(e => e.TaskPriority).HasColumnName("task_priority");
+                entity.Property(e => e.TaskPriority).HasColumnName("TaskPriority");
 
-                entity.Property(e => e.TaskStartTime).HasColumnName("task_start_time");
+                entity.Property(e => e.TaskStartTime).HasColumnName("TaskStartTime");
 
                 entity.Property(e => e.TaskStatus)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("task_status");
+                    .HasColumnName("TaskStatus");
 
                 entity.Property(e => e.TaskTag)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("task_tag");
+                    .HasColumnName("TaskTag");
 
                 entity.Property(e => e.TaskTitle)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("task_title");
+                    .HasColumnName("TaskTitle");
 
-                entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.UserId).HasColumnName("UserId");
 
                 entity.HasOne(d => d.List)
                     .WithMany(p => p.Tasks)

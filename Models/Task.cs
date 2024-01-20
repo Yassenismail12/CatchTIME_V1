@@ -1,21 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace TESTT.Models
 {
+    public enum Difficulty
+    {
+        Low = 1,
+        Medium = 2,
+        High = 3
+    }
+
+    public enum Priority
+    {
+        Low = 1,
+        Medium = 2,
+        High = 3
+    }
     public partial class Task
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int TaskId { get; set; }
         public string? TaskTitle { get; set; }
-        public int? TaskPriority { get; set; }
+        [EnumDataType(typeof(Priority))]
+        public Priority? TaskPriority { get; set; }
         public string? TaskTag { get; set; }
         public DateTime? TaskDate { get; set; }
         public TimeSpan? TaskDuration { get; set; }
         public TimeSpan? TaskStartTime { get; set; }
         public TimeSpan? TaskEndTime { get; set; }
         public TimeSpan? TaskActualDuration { get; set; }
-        public int? TaskDifficulty { get; set; }
-        public string? TaskStatus { get; set; }
+        [EnumDataType(typeof(Difficulty))]
+        public Difficulty? TaskDifficulty { get; set; }
+        public bool TaskStatus { get; set; }
         public int? UserId { get; set; }
         public int? ListId { get; set; }
         public int? ProjectId { get; set; }

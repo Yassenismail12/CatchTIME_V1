@@ -12,7 +12,7 @@ namespace TESTT.Models
         }
 
         public int ListId { get; set; }
-        public string? ListName { get; set; }
+        public string? ListTitle { get; set; }
         public string? ListCategory { get; set; }
         public int? UserId { get; set; }
 

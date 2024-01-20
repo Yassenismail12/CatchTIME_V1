@@ -1,0 +1,102 @@
+﻿@model TESTT.Models.Task
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="TaskTitle" class="control-label"></label>
+        <input asp-for="TaskTitle" class="form-control" />
+        <span asp-validation-for="TaskTitle" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TaskPriority" class="control-label"></label>
+        <select asp-for="TaskPriority" class="form-control">
+            <option value="1">Low</option>
+            <option value="2">Medium</option>
+            <option value="3">High</option>
+        </select>
+        <span asp-validation-for="TaskPriority" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TaskTag" class="control-label"></label>
+        <input asp-for="TaskTag" class="form-control" />
+        <span asp-validation-for="TaskTag" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TaskDate" class="control-label"></label>
+        <input asp-for="TaskDate" type="date" class="form-control" />
+        <span asp-validation-for="TaskDate" class="text-danger"></span>
+    </div>
+
+
+    <div class="form-group">
+        <label asp-for="TaskStartTime" class="control-label"></label>
+        <input asp-for="TaskStartTime" type="time" class="form-control" />
+        <span asp-validation-for="TaskStartTime" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TaskEndTime" class="control-label"></label>
+        <input asp-for="TaskEndTime" type="time" class="form-control" />
+        <span asp-validation-for="TaskEndTime" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TaskActualDuration" class="control-label"></label>
+        <input asp-for="TaskActualDuration" class="form-control" />
+        <span asp-validation-for="TaskActualDuration" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TaskDifficulty" class="control-label"></label>
+        <select asp-for="TaskDifficulty" class="form-control">
+            <option value="1">Low</option>
+            <option value="2">Medium</option>
+            <option value="3">High</option>
+        </select>
+        <span asp-validation-for="TaskDifficulty" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ProjectId" class="control-label"></label>
+        <select asp-for="ProjectId" asp-items="@(ViewBag.Projects)" class="form-control">
+            <option value="">Select Project</option>
+        </select>
+        <span asp-validation-for="ProjectId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ListId" class="control-label"></label>
+        @if (ViewBag.Lists != null)
+        {
+            <select asp-for="ListId" asp-items="@(ViewBag.Lists)" class="form-control">
+                <option value="">Select List</option>
+            </select>
+        }
+        else
+        {
+            <span>No lists available</span>
+        }
+        <span asp-validation-for="ListId" class="text-danger"></span>
+    </div>
+
+   
+
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
