@@ -1,0 +1,30 @@
+﻿@model TESTT.Models.Project
+
+<h1>Project Details</h1>
+
+<div>
+    <h4>Project</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ProjectTitle)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ProjectTitle)
+        </dd>
+        <!-- Add other fields as needed -->
+    </dl>
+</div>
+
+<h4>Tasks</h4>
+<hr />
+<ul>
+    @foreach (var task in Model.Tasks)
+    {
+        <li>@task.TaskTitle</li>
+    }
+</ul>
+
+<div>
+    <a asp-action="Index">Back to Projects</a>
+</div>

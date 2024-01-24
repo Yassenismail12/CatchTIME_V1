@@ -1,0 +1,31 @@
+﻿@model IEnumerable<TESTT.Models.Project>
+
+<h1>Project Index</h1>
+
+<p>
+    <a asp-action="Create">Create New Project</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Project Title
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var project in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => project.ProjectTitle)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@project.ProjectId">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

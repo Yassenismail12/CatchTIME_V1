@@ -1,0 +1,37 @@
+﻿@model IEnumerable<TESTT.Models.List>
+
+<h1>List Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                List Title
+            </th>
+            <th>
+                List Category
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var list in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => list.ListTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => list.ListCategory)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@list.ListId">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

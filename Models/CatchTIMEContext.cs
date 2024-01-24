@@ -36,58 +36,59 @@ namespace TESTT.Models
             {
                 entity.ToTable("List");
 
+                entity.HasKey(e => e.ListId);
                 entity.Property(e => e.ListId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("list_id");
+                    .ValueGeneratedOnAdd();
+
 
                 entity.Property(e => e.ListCategory)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("list_category");
+                    .HasColumnName("ListCategory");
 
                 entity.Property(e => e.ListTitle)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("list_title");
+                    .HasColumnName("ListTitle");
 
-                entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.UserId).HasColumnName("UserId");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Lists)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__List__user_id__398D8EEE");
+                    .HasConstraintName("FK__List__user_id");
             });
 
             modelBuilder.Entity<Project>(entity =>
             {
                 entity.ToTable("Project");
 
+                entity.HasKey(e => e.ProjectId);
                 entity.Property(e => e.ProjectId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("project_id");
+                    .ValueGeneratedOnAdd();
 
-                entity.Property(e => e.ListId).HasColumnName("list_id");
+                entity.Property(e => e.ListId).HasColumnName("ListId");
 
-                entity.Property(e => e.ProjectNoOfCompleted).HasColumnName("project_no_of_completed");
+                entity.Property(e => e.ProjectNoOfCompleted).HasColumnName("ProjectNoOfCompleted");
 
-                entity.Property(e => e.ProjectNoOfTasks).HasColumnName("project_no_of_tasks");
+                entity.Property(e => e.ProjectNoOfTasks).HasColumnName("ProjectNoOfTasks");
 
                 entity.Property(e => e.ProjectTitle)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("project_title");
+                    .HasColumnName("ProjectTitle");
 
-                entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.UserId).HasColumnName("UserId");
 
                 entity.HasOne(d => d.List)
                     .WithMany(p => p.Projects)
                     .HasForeignKey(d => d.ListId)
-                    .HasConstraintName("FK__Project__list_id__3D5E1FD2");
+                    .HasConstraintName("FK__Project__list_id");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Projects)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Project__user_id__3C69FB99");
+                    .HasConstraintName("FK__Project__user_id");
             });
 
             modelBuilder.Entity<Task>(entity =>
@@ -217,3 +218,4 @@ namespace TESTT.Models
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
+
