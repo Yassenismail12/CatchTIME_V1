@@ -23,4 +23,31 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Home\js\" />
+    <Folder Include="Views\Login\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\Home_animate.css" />
+    <None Include="wwwroot\css\Home_style.css" />
+    <None Include="wwwroot\Home_images\applight-wave.jpg" />
+    <None Include="wwwroot\Home_images\applight-wave.png" />
+    <None Include="wwwroot\Home_images\applight-wave.svg" />
+    <None Include="wwwroot\Home_images\appstore.png" />
+    <None Include="wwwroot\Home_images\arrow-left.png" />
+    <None Include="wwwroot\Home_images\arrow-right.png" />
+    <None Include="wwwroot\Home_images\iphone-screen.png" />
+    <None Include="wwwroot\Home_images\logo-black.png" />
+    <None Include="wwwroot\Home_images\logo.png" />
+    <None Include="wwwroot\Home_images\pattern.png" />
+    <None Include="wwwroot\Home_images\playstore.png" />
+    <None Include="wwwroot\Home_images\user1.jpg" />
+    <None Include="wwwroot\Home_images\user2.jpg" />
+    <None Include="wwwroot\Home_images\user3.jpg" />
+    <None Include="wwwroot\Home_images\video-bg.jpg" />
+    <None Include="wwwroot\js\scrollIt.min.js" />
+    <None Include="wwwroot\js\wow.min.js" />
+  </ItemGroup>
+
 </Project>
