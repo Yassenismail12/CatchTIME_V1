@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNet.Identity.EntityFramework;
+
 
 namespace TESTT.Models
 {
     public partial class UserTable
+
     {
         public UserTable()
         {
@@ -11,7 +16,8 @@ namespace TESTT.Models
             Projects = new HashSet<Project>();
             Tasks = new HashSet<Task>();
         }
-
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         public string? Username { get; set; }
         public string? UserEmail { get; set; }

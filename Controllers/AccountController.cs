@@ -1,23 +1,66 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TESTT.Models;
+using System.Security.Cryptography;
+using System.Linq;
+using System.Text;
+using BCrypt.Net;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace TESTT.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly CatchTIMEContext _context;
+
+        // Constructor with dependency injection
+        public AccountController(CatchTIMEContext context)
+        {
+            _context = context;
+        }
+
         // GET: AccountController
         public ActionResult Index()
         {
             return View();
         }
-        public ActionResult Login()
+        [HttpGet]
+        public IActionResult Login()
         {
             return View();
         }
-        // GET: AccountController/Details/5
-        public ActionResult Details(int id)
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(string email, string password)
         {
-            return View();
+            var user = _context.UserTables.SingleOrDefault(u => u.UserEmail == email && u.UserPassword == password);
+
+            if (user != null)
+            {
+                // Authentication successful, redirect to the Dashboard
+                return RedirectToAction("Index", "Dashboard");
+            }
+            else
+            {
+                // Authentication failed, display an error message
+                ViewBag.InvalidLoginMessage = "Invalid Email or password.";
+                return View();
+            }
+        }
+
+
+        private string HashPassword(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password);
+        }
+
+        // Verify password using Bcrypt
+        private bool VerifyPassword(string inputPassword, string hashedPassword)
+        {
+            return BCrypt.Net.BCrypt.Verify(inputPassword, hashedPassword);
         }
 
         // GET: AccountController/Create
