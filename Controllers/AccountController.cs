@@ -64,25 +64,54 @@ namespace TESTT.Controllers
         }
 
         // GET: AccountController/Create
-        public ActionResult Create()
+        [HttpGet]
+        public IActionResult Create()
         {
-            return View();
+            var model = new CreateAccountViewModel();
+            return View(model);
         }
+
 
         // POST: AccountController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult Create(CreateAccountViewModel model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                // Check if the email is already in use
+                if (_context.UserTables.Any(u => u.UserEmail == model.UserEmail))
+                {
+                    ModelState.AddModelError("UserEmail", "Email is already in use.");
+                    return View(model);
+                }
+
+                // Hash the password before storing it
+                model.UserPassword = HashPassword(model.UserPassword);
+
+                // Perform additional validation and logic as needed
+
+                // Create a new UserTable instance and populate it with the ViewModel data
+                var newUser = new UserTable
+                {
+                    Username = model.Name,
+                    UserEmail = model.UserEmail,
+                    UserPassword = model.UserPassword
+                    // Add other properties as needed
+                };
+
+                // Add the user to the database
+                _context.UserTables.Add(newUser);
+                _context.SaveChanges();
+
+                // Redirect to the Dashboard or any other page after successful registration
+                return RedirectToAction("Index", "Dashboard");
             }
-            catch
-            {
-                return View();
-            }
+
+            // If the model is not valid, redisplay the form with validation errors
+            return View(model);
         }
+
 
         // GET: AccountController/Edit/5
         public ActionResult Edit(int id)
