@@ -19,7 +19,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddDbContext<CatchTIMEContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("Server=YASSEN-PC\\TESTED;Database=CatchTime;Trusted_Connection=True;")));
+            options.UseSqlServer(Configuration.GetConnectionString("YourConnectionString")));
 
         services.AddControllersWithViews();
     }

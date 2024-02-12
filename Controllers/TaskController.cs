@@ -198,4 +198,25 @@ public class TaskController : Controller
     {
         return _context.Tasks.Any(e => e.TaskId == id);
     }
+
+    public IActionResult GetTasks()
+    {
+        var tasks = _context.Tasks.Select(t => new
+        {
+            id = t.TaskId,
+            title = t.TaskTitle,
+            start = (t.TaskDate != null && t.TaskStartTime != null) ? t.TaskDate.Value.ToString("yyyy-MM-dd") + "T" + t.TaskStartTime.Value.ToString() : null,
+            end = (t.TaskDate != null && t.TaskEndTime != null) ? t.TaskDate.Value.ToString("yyyy-MM-dd") + "T" + t.TaskEndTime.Value.ToString() : null,
+            // Add more properties as needed
+        }).ToList();
+
+        return Json(tasks);
+    }
+
+
+
+
+
+
+
 }
