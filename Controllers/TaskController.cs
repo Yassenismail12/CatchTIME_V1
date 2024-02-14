@@ -213,10 +213,68 @@ public class TaskController : Controller
         return Json(tasks);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> UpdateTask(int taskId, string start, string end)
+    {
+        var task = await _context.Tasks.FindAsync(taskId);
+        if (task == null)
+        {
+            return NotFound();
+        }
 
+        try
+        {
+            // Parse start and end strings to DateTime objects
+            if (DateTime.TryParse(start, out DateTime startTime))
+            {
+                task.TaskStartTime = startTime.TimeOfDay; // Extract time of day as TimeSpan
+            }
+            else
+            {
+                // Handle invalid start time format
+                return Json(new { success = false, error = "Invalid start time format" });
+            }
 
+            if (!string.IsNullOrEmpty(end) && DateTime.TryParse(end, out DateTime endTime))
+            {
+                task.TaskEndTime = endTime.TimeOfDay; // Extract time of day as TimeSpan
+            }
+            else if (string.IsNullOrEmpty(end))
+            {
+                task.TaskEndTime = null; // Clear end time if it's not provided
+            }
+            else
+            {
+                // Handle invalid end time format
+                return Json(new { success = false, error = "Invalid end time format" });
+            }
 
+            // Calculate TaskDuration based on TaskStartTime and TaskEndTime
+            if (task.TaskStartTime.HasValue && task.TaskEndTime.HasValue)
+            {
+                task.TaskDuration = task.TaskEndTime - task.TaskStartTime;
+            }
+            else
+            {
+                task.TaskDuration = null; // Clear task duration if start or end time is null
+            }
 
+            // Update Task object
+            _context.Update(task);
 
+            // Save changes to the database
+            await _context.SaveChangesAsync();
 
+            // Return success response
+            return Json(new { success = true });
+        }
+        catch (Exception ex)
+        {
+            // Handle error
+            return Json(new { success = false, error = ex.Message });
+        }
+    }
 }
+
+
+

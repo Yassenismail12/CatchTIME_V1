@@ -3,6 +3,11 @@
 <head>
     <meta charset='utf-8' />
 
+    <script src='~/fullcalendar-6.1.10/dist/index.global.js'></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
     <style>
         body {
             margin: 40px 10px;
@@ -20,12 +25,12 @@
 <body>
     <div id='calendar'></div>
 
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                // Your FullCalendar options/configuration here
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
@@ -48,10 +53,42 @@
                 eventClick: function (info) {
                     // Handle event click if needed
                     console.log('Event clicked:', info.event);
+                },
+                editable: true, // Enable event dragging and resizing
+                eventDrop: function (event) {
+                    updateTask(event);
+                },
+                eventResize: function (event) {
+                    updateTask(event);
                 }
             });
 
+            
+
             calendar.render();
+
+            function updateTask(event) {
+                var taskId = event.extendedProps.id; // Extracting taskId from the event object
+                var start = event.start.toISOString(); // Converting start time to ISO string
+                var end = event.end ? event.end.toISOString() : null; // Converting end time to ISO string if present
+
+                // Making AJAX POST request to UpdateTask endpoint with taskId, start, and end parameters
+                $.ajax({
+                    type: 'POST',
+                    url: '/Task/UpdateTask',
+                    data: {
+                        taskId: taskId,
+                        start: start,
+                        end: end
+                    },
+                    success: function (response) {
+                        console.log('Task updated successfully:', response);
+                    },
+                    error: function (error) {
+                        console.error('Error updating task:', error);
+                    }
+                });
+            }
         });
     </script>
 
