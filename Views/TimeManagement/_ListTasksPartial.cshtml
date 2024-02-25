@@ -1,0 +1,13 @@
+﻿@model IEnumerable<TESTT.Models.Task>
+
+<ul>
+    @foreach (var task in Model)
+    {
+        <li>
+            <input type="checkbox" onchange="updateTaskStatus(@task.TaskId, this.checked)" @(task.TaskStatus ? "checked" : "") />
+            <a href="#" onclick="loadTaskDetails(@task.TaskId)">@task.TaskTitle</a>
+            <button onclick="deleteTask(@task.TaskId)">Delete</button>
+            <button onclick="showEditTaskForm(@task.TaskId)">Edit</button>
+        </li>
+    }
+</ul>
