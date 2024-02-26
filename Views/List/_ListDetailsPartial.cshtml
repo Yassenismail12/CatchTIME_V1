@@ -1,0 +1,14 @@
+﻿<!-- Inside Views/List/_ListDetailsPartial.cshtml -->
+
+<h4>List Details</h4>
+<p>List ID: @Model.ListId</p>
+<p>List Title: @Model.ListTitle</p>
+<p>List Category: @Model.ListCategory</p>
+
+<h4>Tasks</h4>
+<ul>
+    @foreach (var task in Model.Tasks)
+    {
+        <li>@task.TaskTitle</li>
+    }
+</ul>
