@@ -213,21 +213,24 @@ public class TaskController : Controller
         return Json(tasks);
     }
 
+
+
     [HttpPost]
     public async Task<IActionResult> UpdateTask(int taskId, string start, string end)
     {
-        var task = await _context.Tasks.FindAsync(taskId);
-        if (task == null)
-        {
-            return NotFound();
-        }
-
         try
         {
-            // Parse start and end strings to DateTime objects
+            var task = await _context.Tasks.FindAsync(taskId);
+            if (task == null)
+            {
+                return NotFound();
+            }
+
+            // Convert start and end strings to DateTime objects
             if (DateTime.TryParse(start, out DateTime startTime))
             {
                 task.TaskStartTime = startTime.TimeOfDay; // Extract time of day as TimeSpan
+                task.TaskDate = startTime.Date; // Extract date
             }
             else
             {
@@ -259,10 +262,8 @@ public class TaskController : Controller
                 task.TaskDuration = null; // Clear task duration if start or end time is null
             }
 
-            // Update Task object
+            // Update Task object in the database
             _context.Update(task);
-
-            // Save changes to the database
             await _context.SaveChangesAsync();
 
             // Return success response
@@ -270,10 +271,16 @@ public class TaskController : Controller
         }
         catch (Exception ex)
         {
-            // Handle error
-            return Json(new { success = false, error = ex.Message });
+            // Log the error for debugging purposes
+            // You can customize the logging based on your application's logging mechanism
+            Console.WriteLine($"Error updating task: {ex.Message}");
+
+            // Return error response
+            return Json(new { success = false, error = "An error occurred while updating the task." });
         }
     }
+
+
 }
 
 

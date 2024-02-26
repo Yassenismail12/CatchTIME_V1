@@ -67,28 +67,45 @@
 
             calendar.render();
 
-            function updateTask(event) {
-                var taskId = event.extendedProps.id; // Extracting taskId from the event object
-                var start = event.start.toISOString(); // Converting start time to ISO string
-                var end = event.end ? event.end.toISOString() : null; // Converting end time to ISO string if present
+            function updateTask(taskId, start, end) {
+                console.log('Start:', start);
+                console.log('End:', end);
 
-                // Making AJAX POST request to UpdateTask endpoint with taskId, start, and end parameters
-                $.ajax({
-                    type: 'POST',
-                    url: '/Task/UpdateTask',
-                    data: {
+                // Convert start and end strings to Date objects
+                const startDate = new Date(start);
+                const endDate = end ? new Date(end) : null;
+
+                // Check if the date conversion was successful
+                if (isNaN(startDate.getTime()) || (endDate && isNaN(endDate.getTime()))) {
+                    console.error('Invalid date format');
+                    return;
+                }
+
+                fetch('/Task/UpdateTask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
                         taskId: taskId,
-                        start: start,
-                        end: end
-                    },
-                    success: function (response) {
-                        console.log('Task updated successfully:', response);
-                    },
-                    error: function (error) {
+                        start: startDate.toISOString(),
+                        end: endDate ? endDate.toISOString() : null
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Task updated successfully:', data);
+                    })
+                    .catch(error => {
                         console.error('Error updating task:', error);
-                    }
-                });
+                    });
             }
+
         });
     </script>
 
