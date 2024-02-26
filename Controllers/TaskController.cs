@@ -230,7 +230,6 @@ public class TaskController : Controller
             // Convert start and end strings to DateTime objects
             if (DateTime.TryParse(start, out DateTime startTime))
             {
-<<<<<<< HEAD
                 StringBuilder startBuilder = new StringBuilder(startTime.ToString());
 
                 // Manipulate startBuilder to replace spaces with 'T'
@@ -253,10 +252,9 @@ public class TaskController : Controller
                     // Handle invalid start time format
                     return Json(new { success = false, error = "Invalid start time format" });
                 }
-=======
                 task.TaskStartTime = startTime.TimeOfDay; // Extract time of day as TimeSpan
                 task.TaskDate = startTime.Date; // Extract date
->>>>>>> 75b01f4ecc9eda70009d18a9a1ab4abc7fb8bc61
+
             }
             else
             {
@@ -305,11 +303,6 @@ public class TaskController : Controller
             return Json(new { success = false, error = "An error occurred while updating the task." });
         }
     }
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 75b01f4ecc9eda70009d18a9a1ab4abc7fb8bc61
 }
 
 
