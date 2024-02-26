@@ -198,4 +198,89 @@ public class TaskController : Controller
     {
         return _context.Tasks.Any(e => e.TaskId == id);
     }
+
+
+    public IActionResult GetTasks()
+    {
+        var tasks = _context.Tasks.Select(t => new
+        {
+            id = t.TaskId,
+            title = t.TaskTitle,
+            start = (t.TaskDate != null && t.TaskStartTime != null) ? t.TaskDate.Value.ToString("yyyy-MM-dd") + "T" + t.TaskStartTime.Value.ToString() : null,
+            end = (t.TaskDate != null && t.TaskEndTime != null) ? t.TaskDate.Value.ToString("yyyy-MM-dd") + "T" + t.TaskEndTime.Value.ToString() : null,
+            // Add more properties as needed
+        }).ToList();
+
+        return Json(tasks);
+    }
+
+
+
+    [HttpPost]
+    public async Task<IActionResult> UpdateTask(int taskId, string start, string end)
+    {
+        try
+        {
+            var task = await _context.Tasks.FindAsync(taskId);
+            if (task == null)
+            {
+                return NotFound();
+            }
+
+            // Convert start and end strings to DateTime objects
+            if (DateTime.TryParse(start, out DateTime startTime))
+            {
+                // Manipulate start string to replace spaces with 'T'
+                string modifiedStartString = startTime.ToString("yyyy-MM-ddTHH:mm:ss");
+                task.TaskStartTime = startTime.TimeOfDay; // Extract time of day as TimeSpan
+                task.TaskDate = startTime.Date; // Extract date
+            }
+            else
+            {
+                // Handle invalid start time format
+                return Json(new { success = false, error = "Invalid start time format" });
+            }
+
+            if (!string.IsNullOrEmpty(end) && DateTime.TryParse(end, out DateTime endTime))
+            {
+                task.TaskEndTime = endTime.TimeOfDay; // Extract time of day as TimeSpan
+            }
+            else if (string.IsNullOrEmpty(end))
+            {
+                task.TaskEndTime = null; // Clear end time if it's not provided
+            }
+            else
+            {
+                // Handle invalid end time format
+                return Json(new { success = false, error = "Invalid end time format" });
+            }
+
+            // Calculate TaskDuration based on TaskStartTime and TaskEndTime
+            if (task.TaskStartTime.HasValue && task.TaskEndTime.HasValue)
+            {
+                task.TaskDuration = task.TaskEndTime - task.TaskStartTime;
+            }
+            else
+            {
+                task.TaskDuration = null; // Clear task duration if start or end time is null
+            }
+
+            // Update Task object in the database
+            _context.Update(task);
+            await _context.SaveChangesAsync();
+
+            // Return success response
+            return Json(new { success = true });
+        }
+        catch (Exception ex)
+        {
+            // Log the error for debugging purposes
+            // You can customize the logging based on your application's logging mechanism
+            Console.WriteLine($"Error updating task: {ex.Message}");
+
+            // Return error response
+            return Json(new { success = false, error = "An error occurred while updating the task." });
+        }
+    }
+
 }
