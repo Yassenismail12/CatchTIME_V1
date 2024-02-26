@@ -1,37 +1,133 @@
 ﻿@model IEnumerable<TESTT.Models.List>
 
-<h1>List Index</h1>
+@{
+    ViewData["Title"] = "List Index";
+    Layout = "~/Views/List/_ListLayout.cshtml";
+}
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+    }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                List Title
-            </th>
-            <th>
-                List Category
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var list in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => list.ListTitle)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => list.ListCategory)
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@list.ListId">Details</a>
-                </td>
-            </tr>
+    .container-fluid {
+        display: flex;
+        height: 100vh;
+        overflow: hidden; /* Hide content that overflows the container */
+    }
+
+    .lists {
+        flex: 0 0 30%;
+        background-color: #4373ffd9;
+        color: #fff;
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+    .list-group-item {
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+        .list-group-item:hover {
+            background-color: #495057;
+            transform: scale(1.02);
         }
-    </tbody>
-</table>
+
+    .details {
+        flex: 1;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+    }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+        color: #343a40;
+    }
+
+    #listDetails {
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .badge-primary {
+        background-color: #007bff;
+    }
+
+    .text-muted {
+        color: #6c757d;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="lists" id="list-container">
+        <h1>All Lists</h1>
+
+        <ul class="list-group">
+            @foreach (var list in Model)
+            {
+                <li class="list-group-item list-link" data-list-id="@list.ListId">
+                    <strong>@Html.DisplayFor(modelItem => list.ListTitle)</strong>
+                    <span class="badge badge-primary">@Html.DisplayFor(modelItem => list.ListCategory)</span>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div class="details" id="details-container">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title">List Details</h1>
+
+                <div id="listDetails">
+                    <p class="text-muted">Select a list to see details.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://unpkg.com/split.js@1.6.0"></script>
+    <script>
+        $(document).ready(function () {
+            // Initialize Split.js with the container IDs
+            Split(['#list-container', '#details-container'], {
+                sizes: [30, 70],
+                minSize: 200, // Set a minimum size for the list container
+                gutterSize: 10 // Set the size of the gutter (the draggable handle)
+            });
+
+            $('.list-link').on('click', function () {
+                var listId = $(this).data('list-id');
+                loadListDetails(listId);
+            });
+
+            function loadListDetails(listId) {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetListDetails", "List")',
+                    data: { id: listId },
+                    success: function (result) {
+                        $('#listDetails').html(result);
+                    },
+                    error: function (error) {
+                        console.error('Error loading list details: ', error);
+                    }
+                });
+            }
+        });
+    </script>
+}

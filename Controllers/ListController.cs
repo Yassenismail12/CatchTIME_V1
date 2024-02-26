@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using TESTT.Models;
+using TaskModel = TESTT.Models.Task;
 
 public class ListController : Controller
 {
@@ -39,7 +40,34 @@ public class ListController : Controller
 
         return View(list);
     }
+    private ListDetailsViewModel GetListDetailsFromDataSource(int listId)
+    {
+        // Example: Fetch details and tasks for a list from a data source
+        // Replace this with actual logic to retrieve data from your database or other source
 
+        // Assuming you have a DbSet<TaskModel> in your DbContext
+        var listDetails = _context.Lists
+            .Where(l => l.ListId == listId)
+            .Select(l => new ListDetailsViewModel
+            {
+                ListTitle = l.ListTitle,
+                ListCategory = l.ListCategory,
+                Tasks = _context.Tasks
+                    .Where(t => t.ListId == listId)
+                    .ToList()
+            })
+            .FirstOrDefault();
+
+        return listDetails;
+    }
+    [HttpGet]
+    public IActionResult GetListDetails(int id)
+    {
+        // Assuming you have a method to fetch details and tasks for a list from your data source
+        var listDetails = GetListDetailsFromDataSource(id);
+
+        return PartialView("_ListDetailsPartial", listDetails);
+    }
     // GET: List/Create
     public IActionResult Create()
     {

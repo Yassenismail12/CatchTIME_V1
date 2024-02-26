@@ -1,70 +1,45 @@
 ﻿@model IEnumerable<TESTT.Models.Task>
 
+@{
+    ViewData["Title"] = "Task Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-<h1>Task Index</h1>
+<div class="container mt-4">
+    <h1 class="mb-4">Task List</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+    <div class="row mb-3">
+        <div class="col">
+            <a asp-action="Create" class="btn btn-primary">Add New Task</a>
+        </div>
+    </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Task Title
-            </th>
-            <th>
-                Task Priority
-            </th>
-            <th>
-                Task Difficulty
-            </th>
-            <th>
-                Task Status
-            </th>
-            <!-- Add more columns as needed -->
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var task in Model.Where(t => !t.TaskStatus))
+    <div class="row">
+        @foreach (var task in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => task.TaskTitle)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => task.TaskPriority)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => task.TaskDifficulty)
-                </td>
-                <td>
-                    <input type="checkbox" class="status-checkbox" data-task-id="@task.TaskId" checked="@task.TaskStatus" />
-                </td>
-                <!-- Add more columns as needed -->
-                <td>
-                    <a asp-action="Edit" asp-route-id="@task.TaskId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@task.TaskId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@task.TaskId">Delete</a>
-                </td>
-            </tr>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title task-title" data-task-id="@task.TaskId">@Html.DisplayFor(modelItem => task.TaskTitle)</h5>
+                        <p class="card-text">
+                            Priority: @Html.DisplayFor(modelItem => task.TaskPriority) <br />
+                            Difficulty: @Html.DisplayFor(modelItem => task.TaskDifficulty)
+                        </p>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input status-checkbox" data-task-id="@task.TaskId" checked="@task.TaskStatus" />
+                            <label class="form-check-label">Completed</label>
+                        </div>
+                    </div>
+                    <div class="card-footer text-right">
+                        <a asp-action="Edit" asp-route-id="@task.TaskId" class="btn btn-primary btn-sm">Edit</a>
+                        <a asp-action="Details" asp-route-id="@task.TaskId" class="btn btn-primary btn-sm">Details</a>
+                        <a asp-action="Delete" asp-route-id="@task.TaskId" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
-<h2>Tasks with Status 'True'</h2>
-<ul id="completedTasks">
-    @foreach (var task in Model.Where(t => t.TaskStatus))
-    {
-        <li>
-            <input type="checkbox" class="status-checkbox" data-task-id="@task.TaskId" checked="@task.TaskStatus" />
-            @Html.DisplayFor(modelItem => task.TaskTitle) |
-            <a asp-action="Edit" asp-route-id="@task.TaskId">Edit</a> |
-            <a asp-action="Details" asp-route-id="@task.TaskId">Details</a> |
-            <a asp-action="Delete" asp-route-id="@task.TaskId">Delete</a>
-        </li>
-    }
-</ul>
+    </div>
+</div>
 
 @section scripts {
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -72,26 +47,29 @@
         $(document).ready(function () {
             $('.status-checkbox').change(function () {
                 var taskId = $(this).data('task-id');
-                updateTaskStatus(taskId);
+                var isChecked = $(this).prop('checked');
+                updateTaskStatus(taskId, isChecked);
             });
         });
 
-        function updateTaskStatus(taskId) {
+        function updateTaskStatus(taskId, isChecked) {
             $.ajax({
                 type: 'POST',
-                url: '/Task/UpdateStatus',
+                url: '@Url.Action("UpdateStatus", "Task")',
                 data: { taskId: taskId },
                 success: function (result) {
-                    // Optionally, you can update the UI or perform additional actions
                     console.log('Task status updated successfully.');
-                    location.reload();
+                    updateCardStyle(taskId, isChecked);
                 },
                 error: function (error) {
                     console.error('Error updating task status: ', error);
                 }
             });
         }
+
+        function updateCardStyle(taskId, isChecked) {
+            var $taskTitle = $('.task-title[data-task-id="' + taskId + '"]');
+            $taskTitle.css('color', isChecked ? 'grey' : 'black');
+        }
     </script>
-
 }
-

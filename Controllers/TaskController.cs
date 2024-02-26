@@ -4,6 +4,7 @@ using TESTT.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Text;
 
 public class TaskController : Controller
 {
@@ -227,7 +228,28 @@ public class TaskController : Controller
             // Parse start and end strings to DateTime objects
             if (DateTime.TryParse(start, out DateTime startTime))
             {
-                task.TaskStartTime = startTime.TimeOfDay; // Extract time of day as TimeSpan
+                StringBuilder startBuilder = new StringBuilder(startTime.ToString());
+
+                // Manipulate startBuilder to replace spaces with 'T'
+                for (int i = 0; i < startBuilder.Length; i++)
+                {
+                    if (startBuilder[i] == ' ')
+                    {
+                        startBuilder.Remove(i, 1);
+                        startBuilder.Insert(i, 'T');
+                    }
+                }
+
+                // Parse the modified startBuilder back to DateTime
+                if (DateTime.TryParse(startBuilder.ToString(), out DateTime modifiedStartTime))
+                {
+                    task.TaskStartTime = modifiedStartTime.TimeOfDay; // Extract time of day as TimeSpan
+                }
+                else
+                {
+                    // Handle invalid start time format
+                    return Json(new { success = false, error = "Invalid start time format" });
+                }
             }
             else
             {
@@ -274,6 +296,7 @@ public class TaskController : Controller
             return Json(new { success = false, error = ex.Message });
         }
     }
+
 }
 
 
