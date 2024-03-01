@@ -200,6 +200,10 @@ public class TaskController : Controller
         return _context.Tasks.Any(e => e.TaskId == id);
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> Tasks_page
     public IActionResult GetTasks()
     {
         var tasks = _context.Tasks.Select(t => new
@@ -230,6 +234,7 @@ public class TaskController : Controller
             // Convert start and end strings to DateTime objects
             if (DateTime.TryParse(start, out DateTime startTime))
             {
+<<<<<<< HEAD
                 StringBuilder startBuilder = new StringBuilder(startTime.ToString());
 
                 // Manipulate startBuilder to replace spaces with 'T'
@@ -255,6 +260,12 @@ public class TaskController : Controller
                 task.TaskStartTime = startTime.TimeOfDay; // Extract time of day as TimeSpan
                 task.TaskDate = startTime.Date; // Extract date
 
+=======
+                // Manipulate start string to replace spaces with 'T'
+                string modifiedStartString = startTime.ToString("yyyy-MM-ddTHH:mm:ss");
+                task.TaskStartTime = startTime.TimeOfDay; // Extract time of day as TimeSpan
+                task.TaskDate = startTime.Date; // Extract date
+>>>>>>> Tasks_page
             }
             else
             {
@@ -303,6 +314,10 @@ public class TaskController : Controller
             return Json(new { success = false, error = "An error occurred while updating the task." });
         }
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> Tasks_page
 }
 
 
