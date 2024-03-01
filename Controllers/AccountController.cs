@@ -108,10 +108,10 @@ namespace TESTT.Controllers
 
 
                 // Redirect to the Dashboard or any other page after successful registration
-<<<<<<< HEAD
+
                 HttpContext.Session.SetInt32("UserId", newUser.UserId);
                 return RedirectToAction("Index", "TimeManagement");
-=======
+
                 return RedirectToAction("Index", "Dashboard");
 
                     // Add the user to the database
@@ -128,7 +128,6 @@ namespace TESTT.Controllers
                     // Disable IDENTITY_INSERT
                     _context.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT {tableName} OFF");
                 }
->>>>>>> Tasks_page
             }
 
             // If the model is not valid, redisplay the form with validation errors
