@@ -4,8 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using TESTT.Models; // Import your models namespace
-using TESTT.Migrations;   // Import your data context namespace
+using TESTT.Models;
 
 public class Startup
 {
@@ -19,9 +18,12 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddDbContext<CatchTIMEContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("Server=DESKTOP-32VL26T\\SQLEXPRESS;Database=CatchTime;Trusted_Connection=True;")));
+            options.UseSqlServer(Configuration.GetConnectionString("CatchTimeConnection")));
 
         services.AddControllersWithViews();
+
+        // Add session services
+        services.AddSession();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -41,7 +43,11 @@ public class Startup
 
         app.UseRouting();
 
+        app.UseAuthentication();
         app.UseAuthorization();
+
+        // Use session
+        app.UseSession();
 
         app.UseEndpoints(endpoints =>
         {

@@ -41,7 +41,8 @@ namespace TESTT.Controllers
             if (user != null)
             {
                 // Authentication successful, redirect to the Dashboard
-                return RedirectToAction("Index", "Dashboard");
+                HttpContext.Session.SetInt32("UserId", user.UserId);
+                return RedirectToAction("Index", "TimeManagement");
             }
             else
             {
@@ -105,7 +106,8 @@ namespace TESTT.Controllers
                 _context.SaveChanges();
 
                 // Redirect to the Dashboard or any other page after successful registration
-                return RedirectToAction("Index", "Dashboard");
+                HttpContext.Session.SetInt32("UserId", newUser.UserId);
+                return RedirectToAction("Index", "TimeManagement");
             }
 
             // If the model is not valid, redisplay the form with validation errors

@@ -25,6 +25,9 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddRazorPages();
 
+// Add session services
+builder.Services.AddSession();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -42,6 +45,9 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Use session
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
