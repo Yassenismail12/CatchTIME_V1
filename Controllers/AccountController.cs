@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using BCrypt.Net;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 
 namespace TESTT.Controllers
@@ -72,7 +73,6 @@ namespace TESTT.Controllers
         }
 
 
-        // POST: AccountController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(CreateAccountViewModel model)
@@ -89,28 +89,46 @@ namespace TESTT.Controllers
                 // Hash the password before storing it
                 model.UserPassword = HashPassword(model.UserPassword);
 
-                // Perform additional validation and logic as needed
-
-                // Create a new UserTable instance and populate it with the ViewModel data
-                var newUser = new UserTable
+                try
                 {
-                    Username = model.Name,
-                    UserEmail = model.UserEmail,
-                    UserPassword = model.UserPassword
-                    // Add other properties as needed
-                };
+                    // Enable IDENTITY_INSERT explicitly for the User_Table
+                    var tableName = _context.Model.FindEntityType(typeof(UserTable)).GetTableName();
+                    _context.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT {tableName} ON");
 
-                // Add the user to the database
-                _context.UserTables.Add(newUser);
-                _context.SaveChanges();
+                    // Create a new UserTable instance and populate it with the ViewModel data
+                    var newUser = new UserTable
+                    {
+                        // UserId will be auto-generated due to being an identity column
+                        Username = model.Name,
+                        UserEmail = model.UserEmail,
+                        UserPassword = model.UserPassword
+                        // Add other properties as needed
+                    };
+
 
                 // Redirect to the Dashboard or any other page after successful registration
                 return RedirectToAction("Index", "Dashboard");
+
+                    // Add the user to the database
+                    _context.UserTables.Add(newUser);
+                    _context.SaveChanges();
+
+                    // Redirect to the Dashboard or any other page after successful registration
+                    HttpContext.Session.SetInt32("UserId", newUser.UserId);
+                    return RedirectToAction("Index", "TimeManagement");
+                }
+                finally
+                {
+                    var tableName = _context.Model.FindEntityType(typeof(UserTable)).GetTableName();
+                    // Disable IDENTITY_INSERT
+                    _context.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT {tableName} OFF");
+                }
             }
 
             // If the model is not valid, redisplay the form with validation errors
             return View(model);
         }
+
 
 
         // GET: AccountController/Edit/5
