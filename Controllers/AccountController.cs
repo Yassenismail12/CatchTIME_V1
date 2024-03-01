@@ -34,24 +34,24 @@ namespace TESTT.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(string email, string password)
+        public ActionResult Login(LoginViewModel model)
         {
-            var user = _context.UserTables.SingleOrDefault(u => u.UserEmail == email && u.UserPassword == password);
+            if (ModelState.IsValid)
+            {
+                var user = _context.UserTables.SingleOrDefault(u => u.UserEmail == model.Email);
 
-            if (user != null)
-            {
-                // Authentication successful, redirect to the Dashboard
-                HttpContext.Session.SetInt32("UserId", user.UserId);
-                return RedirectToAction("Index", "TimeManagement");
+                if (user != null && ValidatePassword(model.Password, user.UserPassword))
+                {
+                    // Authentication successful, redirect to the Dashboard
+                    HttpContext.Session.SetInt32("UserId", user.UserId);
+                    return RedirectToAction("Index", "TimeManagement");
+                }
             }
-            else
-            {
-                // Authentication failed, display an error message
-                ViewBag.InvalidLoginMessage = "Invalid Email or password.";
-                return View();
-            }
+
+            // Authentication failed or model is not valid, display an error message
+            ViewBag.InvalidLoginMessage = "Invalid Email or password.";
+            return View();
         }
-
 
         private string HashPassword(string password)
         {
@@ -59,9 +59,9 @@ namespace TESTT.Controllers
         }
 
         // Verify password using Bcrypt
-        private bool VerifyPassword(string inputPassword, string hashedPassword)
+        private bool ValidatePassword(string enteredPassword, string hashedPassword)
         {
-            return BCrypt.Net.BCrypt.Verify(inputPassword, hashedPassword);
+            return BCrypt.Net.BCrypt.Verify(enteredPassword, hashedPassword);
         }
 
         // GET: AccountController/Create
