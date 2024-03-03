@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TESTT.Models.Task>
+﻿a@model IEnumerable<TESTT.Models.Task>
 
 @{
     ViewData["Title"] = "Task Index";
@@ -20,10 +20,10 @@
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title task-title" data-task-id="@task.TaskId">@Html.DisplayFor(modelItem => task.TaskTitle)</h5>
+                            <h5 class="card-title task-title" data-task-id="@task.TaskId">@task.TaskTitle</h5>
                         <p class="card-text">
-                            Priority: @Html.DisplayFor(modelItem => task.TaskPriority) <br />
-                            Difficulty: @Html.DisplayFor(modelItem => task.TaskDifficulty)
+                                Priority: @task.TaskPriority <br />
+                                Difficulty: @task.TaskDifficulty
                         </p>
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input status-checkbox" data-task-id="@task.TaskId" checked="@task.TaskStatus" />

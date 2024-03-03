@@ -26,7 +26,7 @@ namespace TESTT.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=YASSEN-PC\\TESTED;Initial Catalog=CatchTime;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+                optionsBuilder.UseSqlServer("Data Source=DESKTOP-32VL26T\\SQLEXPRESS;Initial Catalog=CatchTime;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
             }
             optionsBuilder.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()));
         }
@@ -153,65 +153,65 @@ namespace TESTT.Models
 
             modelBuilder.Entity<UserTable>(entity =>
             {
-                entity.HasKey(e => e.UserId)
-                    .HasName("PK__User_Tab__B9BE370F555B4770");
+                entity.HasKey(e => e.UserId);
 
                 entity.ToTable("User_Table");
 
                 entity.Property(e => e.UserId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("user_id");
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("UserId");
 
                 entity.Property(e => e.UserActivities)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("user_activities");
+                    .HasColumnName("UserActivities");
 
-                entity.Property(e => e.UserAge).HasColumnName("user_age");
+                entity.Property(e => e.UserAge).HasColumnName("UserAge");
 
                 entity.Property(e => e.UserBirthdate)
                     .HasColumnType("date")
-                    .HasColumnName("user_birthdate");
+                    .HasColumnName("UserBirthdate");
 
                 entity.Property(e => e.UserCountry)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("user_country");
+                    .HasColumnName("UserCountry");
 
                 entity.Property(e => e.UserEmail)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("user_email");
+                    .HasColumnName("UserEmail");
 
                 entity.Property(e => e.UserFirstname)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("user_firstname");
+                    .HasColumnName("UserFirstname");
 
                 entity.Property(e => e.UserLastname)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("user_lastname");
+                    .HasColumnName("UserLastname");
 
                 entity.Property(e => e.UserPassword)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("user_password");
+                    .HasColumnName("UserPassword");
 
-                entity.Property(e => e.UserProductivityTime).HasColumnName("user_productivity_time");
+                entity.Property(e => e.UserProductivityTime).HasColumnName("UserProductivityTime");
 
-                entity.Property(e => e.UserSleeptime).HasColumnName("user_sleeptime");
+                entity.Property(e => e.UserSleeptime).HasColumnName("UserSleeptime");
 
                 entity.Property(e => e.UserStatus)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("user_status");
+                    .HasColumnName("UserStatus");
 
                 entity.Property(e => e.Username)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("username");
+                    .HasColumnName("Username");
             });
+
 
             OnModelCreatingPartial(modelBuilder);
         }

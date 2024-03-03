@@ -73,7 +73,6 @@ namespace TESTT.Controllers
             return View(model);
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(CreateAccountViewModel model)
@@ -92,10 +91,6 @@ namespace TESTT.Controllers
 
                 try
                 {
-                    // Enable IDENTITY_INSERT explicitly for the User_Table
-                    var tableName = _context.Model.FindEntityType(typeof(UserTable)).GetTableName();
-                    _context.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT {tableName} ON");
-
                     // Create a new UserTable instance and populate it with the ViewModel data
                     var newUser = new UserTable
                     {
@@ -105,14 +100,6 @@ namespace TESTT.Controllers
                         UserPassword = model.UserPassword
                         // Add other properties as needed
                     };
-
-
-                // Redirect to the Dashboard or any other page after successful registration
-
-                HttpContext.Session.SetInt32("UserId", newUser.UserId);
-                return RedirectToAction("Index", "TimeManagement");
-
-                return RedirectToAction("Index", "Dashboard");
 
                     // Add the user to the database
                     _context.UserTables.Add(newUser);
@@ -124,8 +111,8 @@ namespace TESTT.Controllers
                 }
                 finally
                 {
+                    // Ensure IDENTITY_INSERT is turned off after attempting to insert the user
                     var tableName = _context.Model.FindEntityType(typeof(UserTable)).GetTableName();
-                    // Disable IDENTITY_INSERT
                     _context.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT {tableName} OFF");
                 }
             }
@@ -133,7 +120,6 @@ namespace TESTT.Controllers
             // If the model is not valid, redisplay the form with validation errors
             return View(model);
         }
-
 
 
         // GET: AccountController/Edit/5
