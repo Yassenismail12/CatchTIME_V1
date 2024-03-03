@@ -54,6 +54,7 @@ namespace TESTT.Controllers
             return View();
         }
 
+
         private string HashPassword(string password)
         {
             return BCrypt.Net.BCrypt.HashPassword(password);
