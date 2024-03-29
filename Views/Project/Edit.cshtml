@@ -1,8 +1,9 @@
 ﻿@model TESTT.Models.Project
 
-<h1>Create Project</h1>
+<h1>Edit Project</h1>
 
-<form asp-action="Create">
+<form asp-action="Edit">
+    <input type="hidden" asp-for="ProjectId" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <div class="form-group">
@@ -13,26 +14,14 @@
 
     <div class="form-group">
         <label asp-for="ListId" class="control-label"></label>
-        @if (ViewBag.Lists != null)
-        {
-            <select asp-for="ListId" asp-items="@(ViewBag.Lists)" class="form-control">
-                <option value="">Select List</option>
-            </select>
-        }
-        else
-        {
-            <span>No lists available</span>
-        }
+        <select asp-for="ListId" asp-items="@(ViewBag.Lists)" class="form-control">
+            <option value="">Select List</option>
+        </select>
         <span asp-validation-for="ListId" class="text-danger"></span>
     </div>
 
-    <!-- Add other fields as needed -->
-
     <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-primary" />
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
     </div>
 </form>
-
-<div>
-    <a asp-action="Index">Back to Projects</a>
-</div>

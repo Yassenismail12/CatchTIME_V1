@@ -12,6 +12,12 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ProjectTitle)
         </dd>
+        <dt class="col-sm-2">
+            Completion Percentage
+        </dt>
+        <dd class="col-sm-10" id="completionPercentage">
+            @Model.CompletionPercentage.ToString("0.##") %
+        </dd>
         <!-- Add other fields as needed -->
     </dl>
 </div>
@@ -21,10 +27,56 @@
 <ul>
     @foreach (var task in Model.Tasks)
     {
-        <li>@task.TaskTitle</li>
+        <li @(task.TaskStatus ? "class=completed-task" : "")>
+            <input type="hidden" name="taskId" value="@task.TaskId" />
+            <input type="checkbox" class="task-checkbox" data-task-id="@task.TaskId" data-task-status="@task.TaskStatus.ToString().ToLower()" @(task.TaskStatus ? "checked" : "") />
+            <label>@task.TaskTitle</label>
+        </li>
     }
 </ul>
+
+<!-- Link to add a new task -->
+<div>
+    <a asp-action="Create" asp-controller="Task" asp-route-projectId="@Model.ProjectId">Add New Task</a>
+</div>
 
 <div>
     <a asp-action="Index">Back to Projects</a>
 </div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.task-checkbox').change(function () {
+                var taskId = $(this).data('task-id');
+                var isChecked = $(this).prop('checked');
+
+                $.ajax({
+                    url: '@Url.Action("UpdateStatus", "Task")',
+                    type: 'POST',
+                    data: { taskId: taskId },
+                    success: function () {
+                        console.log('Task status updated successfully');
+                        // Update completion percentage
+                        $.get('@Url.Action("Details", "Project", new { id = Model.ProjectId })')
+                            .done(function (data) {
+                                var newCompletionPercentage = $(data).find('#completionPercentage').text();
+                                $('#completionPercentage').text(newCompletionPercentage);
+                                // Update completion percentage on index page
+                                $('#completionPercentage_' + '@Model.ProjectId').text(newCompletionPercentage);
+                            })
+                            .fail(function () {
+                                console.error('Error updating completion percentage');
+                            });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error updating task status:', error);
+                        // Optionally, revert the checkbox state if there's an error
+                        $(this).prop('checked', !isChecked);
+                    }
+                });
+            });
+        });
+    </script>
+}

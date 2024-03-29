@@ -16,3 +16,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.completed-task {
+    color: #888; /* Gray color */
+    /* Add any additional styling you want for completed tasks */
+}

@@ -20,5 +20,16 @@ namespace TESTT.Models
         public virtual List? List { get; set; }
         public virtual UserTable? User { get; set; }
         public virtual ICollection<Task> Tasks { get; set; }
+
+        public double CompletionPercentage
+        {
+            get
+            {
+                if (ProjectNoOfTasks == 0 || ProjectNoOfTasks == null)
+                    return 0;
+
+                return ((double)ProjectNoOfCompleted / (double)ProjectNoOfTasks) * 100;
+            }
+        }
     }
 }

@@ -12,6 +12,9 @@
             <th>
                 Project Title
             </th>
+            <th>
+                Completion Percentage
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -22,8 +25,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => project.ProjectTitle)
                 </td>
+                <td id="completionPercentage_@project.ProjectId">
+                    @Html.DisplayFor(modelItem => project.CompletionPercentage) %
+                </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@project.ProjectId">Details</a>
+                    <a asp-action="Details" asp-route-id="@project.ProjectId">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@project.ProjectId">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@project.ProjectId">Delete</a>
                 </td>
             </tr>
         }

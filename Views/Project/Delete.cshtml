@@ -1,0 +1,22 @@
+﻿@model TESTT.Models.Project
+
+<h1>Delete Project</h1>
+<h3>Are you sure you want to delete this project?</h3>
+<div>
+    <h4>Project</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ProjectTitle)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ProjectTitle)
+        </dd>
+        <!-- Add other fields as needed -->
+    </dl>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ProjectId" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
