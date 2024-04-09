@@ -1,0 +1,116 @@
+﻿@{
+    ViewData["Title"] = "Pomodoro Timer";
+}
+
+<h1 class="text-center mb-4">Pomodoro Timer</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Display the countdown timer -->
+                    <div class="text-center mb-4">
+                        <h2 id="timer">00:00</h2>
+                    </div>
+
+                    <!-- Set Pomodoro duration -->
+                    <div class="form-group">
+                        <label for="pomodoroDuration">Set Pomodoro Duration (minutes):</label>
+                        <input type="number" class="form-control" id="pomodoroDuration" value="25">
+                    </div>
+
+                    <!-- Dropdown to choose a task -->
+                    <form id="chooseTaskForm">
+                        <div class="form-group">
+                            <label for="taskId">Choose a Task:</label>
+                            <select class="form-control" name="taskId" id="taskId">
+                                @foreach (var task in ViewBag.Tasks)
+                                {
+                                    <option value="@task.TaskId">@task.TaskTitle</option>
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Start Pomodoro</button>
+                    </form>
+
+                    <!-- Button to stop Pomodoro timer -->
+                    <button id="stopPomodoroBtn" class="btn btn-danger btn-block mt-3" style="display: none;">Stop Pomodoro</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var timerInterval; // Declare a global variable to hold the timer interval
+
+        // Function to start the Pomodoro timer
+        $('#chooseTaskForm').submit(function (e) {
+            e.preventDefault();
+            var taskId = $('#taskId').val();
+            var pomodoroDuration = $('#pomodoroDuration').val();
+
+            $.ajax({
+                type: "POST",
+                url: '/Pomodoro/StartPomodoro', // Directly specify the URL
+                data: { taskId: taskId, minutes: pomodoroDuration },
+                success: function (response) {
+                    // Display the stop button and hide the start button
+                    $('#stopPomodoroBtn').show();
+                    $('#chooseTaskForm').hide();
+
+                    // Start the countdown timer
+                    startTimer(pomodoroDuration * 60);
+                },
+                error: function (xhr, status, error) {
+                    alert("Error starting Pomodoro: " + error);
+                }
+            });
+        });
+
+        // Function to stop the Pomodoro timer
+        $('#stopPomodoroBtn').click(function () {
+            var taskId = $('#taskId').val();
+
+            $.ajax({
+                type: "POST",
+                url: '/Pomodoro/StopPomodoro', // Directly specify the URL
+                data: { taskId: taskId },
+                success: function (response) {
+                    // Hide the stop button and show the start button
+                    $('#stopPomodoroBtn').hide();
+                    $('#chooseTaskForm').show();
+
+                    // Stop the countdown timer
+                    clearInterval(timerInterval);
+                },
+                error: function (xhr, status, error) {
+                    alert("Error stopping Pomodoro: " + error);
+                }
+            });
+        });
+
+        // Function to start the countdown timer
+        function startTimer(duration) {
+            var timer = duration, minutes, seconds;
+            timerInterval = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                $('#timer').text(minutes + ":" + seconds);
+
+                if (--timer < 0) {
+                    clearInterval(timerInterval);
+                    alert("Pomodoro session ended!");
+                    $('#stopPomodoroBtn').click(); // Automatically stop Pomodoro
+                }
+            }, 1000);
+        }
+
+    </script>
+}
