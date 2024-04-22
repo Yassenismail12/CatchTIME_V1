@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="EntityFramework" Version="6.1.0" />
     <PackageReference Include="FullCalendar" Version="3.9.0" />
     <PackageReference Include="jQuery" Version="3.7.1" />
     <PackageReference Include="Microsoft.AspNet.Identity.EntityFramework" Version="2.2.4" />
