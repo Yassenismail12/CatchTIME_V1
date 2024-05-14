@@ -14,8 +14,6 @@ namespace TESTT.Controllers
         {
             _context = context;
         }
-
-		// Action for the main view
 		// Action for the main view
 		public IActionResult Index()
 		{
