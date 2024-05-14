@@ -368,4 +368,8 @@
     <None Include="wwwroot\Login_images\images\img-01.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Dashboard_Images\" />
+  </ItemGroup>
+
 </Project>
