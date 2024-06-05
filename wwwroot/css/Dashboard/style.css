@@ -67,7 +67,7 @@ body {
     scrollbar-width: none;
 }
 
-
+    #sidebar:state(webkit-scrollbar) {
         display: none;
     }
 
