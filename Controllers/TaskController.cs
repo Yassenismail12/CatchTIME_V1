@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TESTT.Models;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Text;
+using Task = TESTT.Models.Task;
 
 public class TaskController : Controller
 {
@@ -16,27 +16,42 @@ public class TaskController : Controller
     }
 
     // GET: Task
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string list)
     {
-        var tasks = await _context.Tasks.ToListAsync();
-        return View(tasks);
+        IQueryable<Task> tasks = _context.Tasks;
+
+        switch (list)
+        {
+            case "Today":
+                tasks = tasks.Where(t => t.TaskDate == DateTime.Today);
+                break;
+            case "Tomorrow":
+                tasks = tasks.Where(t => t.TaskDate == DateTime.Today.AddDays(1));
+                break;
+            case "All":
+                // All tasks, no filter needed
+                break;
+            default:
+                // Default to today's tasks if no list is specified
+                tasks = tasks.Where(t => t.TaskDate == DateTime.Today);
+                break;
+        }
+
+        var taskList = await tasks.ToListAsync();
+        ViewBag.List = list;
+        return View(taskList);
     }
 
     // GET: Task/Create
     public IActionResult Create()
     {
-        ViewBag.Projects = new SelectList(_context.Projects, "ProjectId", "ProjectTitle");
-        ViewBag.Lists = new SelectList(_context.Lists, "ListId", "ListTitle");
-
         return View();
     }
-
-
 
     // POST: Task/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("TaskTitle,TaskPriority,TaskTag,TaskDate,TaskDuration,TaskStartTime,TaskEndTime,TaskActualDuration,TaskDifficulty,TaskStatus,ProjectId,ListId")] TESTT.Models.Task task)
+    public async Task<IActionResult> Create([Bind("TaskTitle,TaskPriority,TaskTag,TaskDate,TaskDuration,TaskStartTime,TaskEndTime,TaskActualDuration,TaskDifficulty,TaskStatus")] TESTT.Models.Task task)
     {
         if (ModelState.IsValid)
         {
@@ -50,9 +65,6 @@ public class TaskController : Controller
             return RedirectToAction(nameof(Index));
         }
 
-        // If the model is not valid, we need to set up the ViewBag again for the dropdowns
-        ViewBag.Projects = new SelectList(_context.Projects, "ProjectId", "ProjectTitle", task.ProjectId);
-        ViewBag.Lists = new SelectList(_context.Lists, "ListId", "ListTitle", task.ListId);
         return View(task);
     }
 
@@ -70,25 +82,13 @@ public class TaskController : Controller
             return NotFound();
         }
 
-        // Get the projects and lists from the database
-        var projects = await _context.Projects.ToListAsync();
-        var lists = await _context.Lists.ToListAsync();
-
-        // Create SelectList for projects and lists
-        SelectList projectList = new SelectList(projects, "ProjectId", "ProjectTitle", task.ProjectId);
-        SelectList listList = new SelectList(lists, "ListId", "ListTitle", task.ListId);
-
-        // Pass SelectList to the view
-        ViewData["Projects"] = projectList;
-        ViewData["Lists"] = listList;
-
         return View(task);
     }
 
     // POST: Task/Edit/1
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("TaskId,TaskTitle,TaskPriority,TaskTag,TaskDate,TaskDuration,TaskStartTime,TaskEndTime,TaskActualDuration,TaskDifficulty,TaskStatus,ProjectId,ListId")] TESTT.Models.Task task)
+    public async Task<IActionResult> Edit(int id, [Bind("TaskId,TaskTitle,TaskPriority,TaskTag,TaskDate,TaskDuration,TaskStartTime,TaskEndTime,TaskActualDuration,TaskDifficulty,TaskStatus")] TESTT.Models.Task task)
     {
         if (id != task.TaskId)
         {
@@ -97,7 +97,6 @@ public class TaskController : Controller
 
         if (ModelState.IsValid)
         {
-            // Calculate TaskDuration based on TaskStartTime and TaskEndTime
             if (task.TaskStartTime.HasValue && task.TaskEndTime.HasValue)
             {
                 task.TaskDuration = task.TaskEndTime - task.TaskStartTime;
@@ -121,10 +120,6 @@ public class TaskController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-
-        // If the model is not valid, set up ViewData for the dropdowns
-        ViewData["Projects"] = new SelectList(_context.Projects, "ProjectId", "ProjectTitle", task.ProjectId);
-        ViewData["Lists"] = new SelectList(_context.Lists, "ListId", "ListTitle", task.ListId);
 
         return View(task);
     }
@@ -158,20 +153,6 @@ public class TaskController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [HttpPost]
-    public async Task<IActionResult> UpdateStatus(int taskId)
-    {
-        var task = await _context.Tasks.FindAsync(taskId);
-        if (task != null)
-        {
-            task.TaskStatus = !task.TaskStatus;
-            await _context.SaveChangesAsync();
-            return Json(new { success = true });
-        }
-
-        return Json(new { success = false, error = "Task not found" });
-    }
-
     // GET: Task/Details/1
     public async Task<IActionResult> Details(int? id)
     {
@@ -181,11 +162,7 @@ public class TaskController : Controller
         }
 
         var task = await _context.Tasks
-            .Include(t => t.List)
-            .Include(t => t.Project)
-            .Include(t => t.User)
             .FirstOrDefaultAsync(m => m.TaskId == id);
-
         if (task == null)
         {
             return NotFound();
@@ -194,127 +171,8 @@ public class TaskController : Controller
         return View(task);
     }
 
-
     private bool TaskExists(int id)
     {
         return _context.Tasks.Any(e => e.TaskId == id);
     }
-
-
-    public IActionResult GetTasks()
-    {
-        var tasks = _context.Tasks.Select(t => new
-        {
-            id = t.TaskId,
-            title = t.TaskTitle,
-            start = (t.TaskDate != null && t.TaskStartTime != null) ? t.TaskDate.Value.ToString("yyyy-MM-dd") + "T" + t.TaskStartTime.Value.ToString() : null,
-            end = (t.TaskDate != null && t.TaskEndTime != null) ? t.TaskDate.Value.ToString("yyyy-MM-dd") + "T" + t.TaskEndTime.Value.ToString() : null,
-            // Add more properties as needed
-        }).ToList();
-
-        return Json(tasks);
-    }
-
-
-
-    [HttpPost]
-    public async Task<IActionResult> UpdateTask(int taskId, string start, string end)
-    {
-        try
-        {
-            var task = await _context.Tasks.FindAsync(taskId);
-            if (task == null)
-            {
-                return NotFound();
-            }
-
-            // Convert start and end strings to DateTime objects
-            if (DateTime.TryParse(start, out DateTime startTime))
-            {
-
-                StringBuilder startBuilder = new StringBuilder(startTime.ToString());
-
-                // Manipulate startBuilder to replace spaces with 'T'
-                for (int i = 0; i < startBuilder.Length; i++)
-                {
-                    if (startBuilder[i] == ' ')
-                    {
-                        startBuilder.Remove(i, 1);
-                        startBuilder.Insert(i, 'T');
-                    }
-                }
-
-                // Parse the modified startBuilder back to DateTime
-                if (DateTime.TryParse(startBuilder.ToString(), out DateTime modifiedStartTime))
-                {
-                    task.TaskStartTime = modifiedStartTime.TimeOfDay; // Extract time of day as TimeSpan
-                }
-                else
-                {
-                    // Handle invalid start time format
-                    return Json(new { success = false, error = "Invalid start time format" });
-                }
-                task.TaskStartTime = startTime.TimeOfDay; // Extract time of day as TimeSpan
-                task.TaskDate = startTime.Date; // Extract date
-
-
-                // Manipulate start string to replace spaces with 'T'
-                string modifiedStartString = startTime.ToString("yyyy-MM-ddTHH:mm:ss");
-                task.TaskStartTime = startTime.TimeOfDay; // Extract time of day as TimeSpan
-                task.TaskDate = startTime.Date; // Extract date
-
-            }
-            else
-            {
-                // Handle invalid start time format
-                return Json(new { success = false, error = "Invalid start time format" });
-            }
-
-            if (!string.IsNullOrEmpty(end) && DateTime.TryParse(end, out DateTime endTime))
-            {
-                task.TaskEndTime = endTime.TimeOfDay; // Extract time of day as TimeSpan
-            }
-            else if (string.IsNullOrEmpty(end))
-            {
-                task.TaskEndTime = null; // Clear end time if it's not provided
-            }
-            else
-            {
-                // Handle invalid end time format
-                return Json(new { success = false, error = "Invalid end time format" });
-            }
-
-            // Calculate TaskDuration based on TaskStartTime and TaskEndTime
-            if (task.TaskStartTime.HasValue && task.TaskEndTime.HasValue)
-            {
-                task.TaskDuration = task.TaskEndTime - task.TaskStartTime;
-            }
-            else
-            {
-                task.TaskDuration = null; // Clear task duration if start or end time is null
-            }
-
-            // Update Task object in the database
-            _context.Update(task);
-            await _context.SaveChangesAsync();
-
-            // Return success response
-            return Json(new { success = true });
-        }
-        catch (Exception ex)
-        {
-            // Log the error for debugging purposes
-            // You can customize the logging based on your application's logging mechanism
-            Console.WriteLine($"Error updating task: {ex.Message}");
-
-            // Return error response
-            return Json(new { success = false, error = "An error occurred while updating the task." });
-        }
-    }
-
-    
-
 }
-
-
-

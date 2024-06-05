@@ -5,18 +5,33 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using TESTT.Models;
+using Microsoft.AspNetCore.Mvc;
 
 public class Startup
 {
-    public Startup(IConfiguration configuration)
+    private readonly IWebHostEnvironment _env;
+    public Startup(IConfiguration configuration, IWebHostEnvironment env)
     {
         Configuration = configuration;
+        _env = env;
     }
 
     public IConfiguration Configuration { get; }
 
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddHttpsRedirection(options =>
+        {
+            options.HttpsPort = 44300; // Port configured in launchSettings.json
+        });
+        services.AddMvc();
+        if (_env.IsDevelopment())
+        {
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add(new RequireHttpsAttribute());
+            });
+        }
         services.AddDbContext<CatchTIMEContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("Data Source=DESKTOP-SQP99UK;Initial Catalog=CatchTime;Integrated Security=True;Encrypt=True;Trust Server Certificate=True")));
 
