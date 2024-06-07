@@ -18,7 +18,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddDbContext<CatchTIMEContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("Data Source=DESKTOP-SQP99UK;Initial Catalog=CatchTime;Integrated Security=True;Encrypt=True;Trust Server Certificate=True")));
+            options.UseSqlServer(Configuration.GetConnectionString("Data Source=DESKTOP-32VL26T\\SQLEXPRESS;Initial Catalog=CatchTime;Integrated Security=True;Encrypt=True;Trust Server Certificate=True")));
 
         services.AddControllersWithViews();
 

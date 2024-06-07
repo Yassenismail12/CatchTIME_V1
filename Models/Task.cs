@@ -39,9 +39,9 @@ namespace TESTT.Models
         public int? ListId { get; set; }
         public int? ProjectId { get; set; }
 
-        public int? NoOfCompleted { get; set; }
-        public int? NoOfUncompleted { get; set; }
-        public int? TotalTasks { get; set; }
+        //public int? NoOfCompleted { get; set; }
+        //public int? NoOfUncompleted { get; set; }
+        //public int? TotalTasks { get; set; }
 
         public virtual List? List { get; set; }
         public virtual Project? Project { get; set; }
