@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CatchTIME Dashboard">
+    <meta name="author" content="Matrouh Univeristy">
+
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="@Url.Content("~/css/Dashboard/style.css")">
+
+    <title>CatchTIME</title>
+</head>
+
+<body>
+    <!-- SIDEBAR -->
+    <aside id="sidebar" role="navigation">
+        <a href="@Url.Action("Index", "Dashboard")" class="brand">
+            <img src="@Url.Content("~/Dashboard_Images/Main.png")" alt="CatchTIME" width="200" height="200" id="logo-collapse">
+        </a>
+        <ul class="side-menu top">
+            <li class="active">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li class="tasks-dropdown">
+                <a href="@Url.Action("Index","Task")">
+                    <i class='bx bxs-check-circle'></i>
+                    <span class="text">Tasks</span>
+                </a>
+                <ul class="dropdown-content">
+                    <li><a href="#">Today</a></li>
+                    <li><a href="#">Tomorrow</a></li>
+                    <li><a href="#">All</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class='bx bxs-bar-chart-alt-2'></i>
+                    <span class="text">Insights</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index","Pomodoro")">
+                    <i class='bx bxs-timer'></i>
+                    <span class="text">Pomodoro</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index","Cal")">
+                    <i class='bx bxs-calendar'></i>
+                    <span class="text">Calendar</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="#">
+                    <i class='bx bxs-cog'></i>
+                    <span class="text">Settings</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="logout">
+                    <i class='bx bxs-log-out-circle'></i>
+                    <span class="text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+    <!-- SIDEBAR -->
+    <!-- CONTENT -->
+    <section id="content">
+        <!-- NAVBAR -->
+        <nav role="navigation">
+            <i class='bx bx-menu'></i>
+            <form action="#" role="search">
+                <div class="form-input">
+                    <input type="search" placeholder="Search..." aria-label="Search">
+                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+                </div>
+            </form>
+            <input type="checkbox" id="switch-mode" hidden>
+            <label for="switch-mode" class="switch-mode" aria-label="Switch Mode"></label>
+            <a href="#" class="notification" aria-label="Notifications">
+                <i class='bx bxs-bell'></i>
+                <span class="num">8</span>
+            </a>
+            <a href="#" class="profile" aria-label="Profile">
+                <img src="@Url.Content("~/Dashboard_Images/people.png")" alt="User">
+            </a>
+        </nav>
+        <!-- NAVBAR -->
+      
+    </section>
+    <!-- CONTENT -->
+    <!-- Scripts -->
+    <script src="@Url.Content("~/js/Dashboard_js.js")"></script>
+    @RenderBody()
+</body>
+
+</html>

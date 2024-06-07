@@ -1,0 +1,153 @@
+﻿
+@{
+    ViewData["Title"] = "Insights";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insights</title>
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="@Url.Action("~/css/Dashboard/style.css")">
+    <link rel="stylesheet" href="@Url.Content("~/insights.css")">
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <aside id="sidebar" role="navigation">
+        <a href="@Url.Action("Index","Dashboard")" class="brand">
+            <img src="Dashboard_Images/Main.png" alt="CatchTIME" width="200" height="200" id="logo-collapse">
+        </a>
+        <ul class="side-menu top">
+            <li>
+                <a href="@Url.Action("Index","Dashboard")">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index","Task")">
+                    <i class='bx bxs-check-circle'></i>
+                    <span class="text">Tasks</span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="insights.html">
+                    <i class='bx bxs-bar-chart-alt-2'></i>
+                    <span class="text">Insights</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bxs-timer'></i>
+                    <span class="text">Pomodoro</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bxs-calendar'></i>
+                    <span class="text">Calendar</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="#">
+                    <i class='bx bxs-cog'></i>
+                    <span class="text">Settings</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="logout">
+                    <i class='bx bxs-log-out-circle'></i>
+                    <span class="text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+    <!-- SIDEBAR -->
+    <!-- CONTENT -->
+    <section id="content">
+        <!-- NAVBAR -->
+        <nav role="navigation">
+            <i class='bx bx-menu'></i>
+            <form action="#" role="search">
+                <div class="form-input">
+                    <input type="search" placeholder="Search..." aria-label="Search">
+                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+                </div>
+            </form>
+            <input type="checkbox" id="switch-mode" hidden>
+            <label for="switch-mode" class="switch-mode" aria-label="Switch Mode"></label>
+            <a href="#" class="notification" aria-label="Notifications">
+                <i class='bx bxs-bell'></i>
+                <span class="num">8</span>
+            </a>
+            <a href="#" class="profile" aria-label="Profile">
+                <img src="Dashboard_Images/people.png" alt="User">
+            </a>
+        </nav>
+        <!-- NAVBAR -->
+        <!-- MAIN -->
+        <main role="main">
+            <div class="head-title">
+                <div class="left">
+                    <h1>Insights</h1>
+                    <ul class="breadcrumb" aria-label="Breadcrumb">
+                        <li>
+                            <a href="dashboard.html">Dashboard</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="insights.html">Insights</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Insights Section -->
+            <div class="insights-section">
+                <div class="insight-box">
+                    <h2>Productivity</h2>
+                    <canvas id="productivityChart"></canvas>
+                </div>
+                <div class="insight-box">
+                    <h2>Tasks Completion</h2>
+                    <div class="completion-tabs">
+                        <button class="tablink" onclick="openTab(event, 'day')">Day</button>
+                        <button class="tablink" onclick="openTab(event, 'month')">Month</button>
+                        <button class="tablink" onclick="openTab(event, 'year')">Year</button>
+                    </div>
+                    <div id="day" class="tabcontent">
+                        <canvas id="dayCompletionChart"></canvas>
+                    </div>
+                    <div id="month" class="tabcontent">
+                        <canvas id="monthCompletionChart"></canvas>
+                    </div>
+                    <div id="year" class="tabcontent">
+                        <canvas id="yearCompletionChart"></canvas>
+                    </div>
+                </div>
+                <div class="insight-box">
+                    <h2>Recommendations</h2>
+                    <ul id="recommendationsList">
+                        <!-- Recommendations will be dynamically added here -->
+                    </ul>
+                </div>
+            </div>
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+    <!-- Scripts -->
+    <script src="@Url.Content("~/js/Dashboard_js.js")"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="insights.js"></script>
+</body>
+
+</html>
+
+

@@ -1,401 +1,503 @@
 ﻿@model TESTT.ViewModels.TimeManagementViewModel
-<div class="row">
-    <!-- Left Section: Lists -->
-    <div class="col-md-4">
-        <h3>Lists</h3>
-        <ul>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CatchTIME Dashboard">
+    <meta name="author" content="Matrouh Univeristy">
+
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="@Url.Content("~/css/Dashboard/style.css")">
+
+    <title>CatchTIME</title>
+</head>
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar" role="navigation">
+        <a href="@Url.Action("Index", "Dashboard")" class="brand">
+            <img src="@Url.Content("~/Dashboard_Images/Main.png")" alt="CatchTIME" width="200" height="200"
+                id="logo-collapse">
+        </a>
+        <ul class="side-menu top">
+            <li class="active">
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li class="tasks-dropdown">
+                <a href="@Url.Action("Index","TimeManagement")">
+                    <i class='bx bxs-check-circle'></i>
+                    <span class="text">Tasks</span>
+                </a>
+                <ul class="dropdown-content">
+                    <li><a href="#">Today</a></li>
+                    <li><a href="#">Tomorrow</a></li>
+                    <li><a href="#">All</a></li>
+                </ul>
+            </li>
+
             <li>
-                <a href="#" class="list-link" data-listid="@Model.AllListId">All</a>
+                <a href="#">
+                    <i class='bx bxs-bar-chart-alt-2'></i>
+                    <span class="text">Insights</span>
+                </a>
             </li>
             <li>
-                <a href="#" class="list-link" data-listid="@Model.TodayListId">Today</a>
+                <a href="@Url.Action("Index","Pomodoro")">
+                    <i class='bx bxs-timer'></i>
+                    <span class="text">Pomodoro</span>
+                </a>
             </li>
             <li>
-                <a href="#" class="list-link" data-listid="@Model.TomorrowListId">Tomorrow</a>
+                <a href="@Url.Action("Index","Cal")">
+                    <i class='bx bxs-calendar'></i>
+                    <span class="text">Calendar</span>
+                </a>
             </li>
-            @foreach (var list in Model.AllLists)
-            {
-                <li>
-                    <a href="#" class="list-link" data-listid="@list.ListId">@list.ListTitle</a>
-                    <button class="delete-list" data-listid="@list.ListId">Delete</button>
-                    <button onclick="showEditListForm(@list.ListId)">Edit</button>
-                </li>
-            }
         </ul>
-        <button onclick="showCreateListForm()">Create New List</button> <!-- New button for creating a list -->
-        <!-- Create List Form -->
-        <div id="createListForm" style="display: none;">
-            <h3>Create New List</h3>
-            <form asp-action="CreateList" method="post">
-                <input type="text" name="ListTitle" placeholder="List Title" required />
-                <input type="text" name="ListCategory" placeholder="List Category" />
-                <button type="submit">Create</button>
+        <ul class="side-menu">
+            <li>
+                <a href="#">
+                    <i class='bx bxs-cog'></i>
+                    <span class="text">Settings</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="logout">
+                    <i class='bx bxs-log-out-circle'></i>
+                    <span class="text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+    <!-- SIDEBAR -->
+
+    <section id="content">
+        <!-- NAVBAR -->
+        <nav role="navigation">
+            <i class='bx bx-menu'></i>
+            <form action="#" role="search">
+                <div class="form-input">
+                    <input type="search" placeholder="Search..." aria-label="Search">
+                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+                </div>
             </form>
+            <input type="checkbox" id="switch-mode" hidden>
+            <label for="switch-mode" class="switch-mode" aria-label="Switch Mode"></label>
+            <a href="#" class="notification" aria-label="Notifications">
+                <i class='bx bxs-bell'></i>
+                <span class="num">8</span>
+            </a>
+            <a href="#" class="profile" aria-label="Profile">
+                <img src="@Url.Content("~/Dashboard_Images/people.png")" alt="User">
+            </a>
+        </nav>
+        <!-- NAVBAR -->
+
+        <div class="row">
+            <!-- Left Section: Lists -->
+            <div class="col-md-4">
+                <h3>Lists</h3>
+                <ul>
+                    <li>
+                        <a href="#" class="list-link" data-listid="@Model.AllListId">All</a>
+                    </li>
+                    <li>
+                        <a href="#" class="list-link" data-listid="@Model.TodayListId">Today</a>
+                    </li>
+                    <li>
+                        <a href="#" class="list-link" data-listid="@Model.TomorrowListId">Tomorrow</a>
+                    </li>
+                    @foreach (var list in Model.AllLists)
+                    {
+                        <li>
+                            <a href="#" class="list-link" data-listid="@list.ListId">@list.ListTitle</a>
+                            <button class="delete-list" data-listid="@list.ListId">Delete</button>
+                            <button onclick="showEditListForm(@list.ListId)">Edit</button>
+                        </li>
+                    }
+                </ul>
+                <button onclick="showCreateListForm()">Create New List</button>
+                <!-- New button for creating a list -->
+                <!-- Create List Form -->
+                <div id="createListForm" style="display: none;">
+                    <h3>Create New List</h3>
+                    <form asp-action="CreateList" method="post">
+                        <input type="text" name="ListTitle" placeholder="List Title" required />
+                        <input type="text" name="ListCategory" placeholder="List Category" />
+                        <button type="submit">Create</button>
+                    </form>
+                </div>
+            </div>
+
+
+            <!-- Middle Section: List Tasks -->
+            <div class="col-md-4">
+                <h3>List Tasks</h3>
+                <div id="listTasksContainer">
+                    <!-- Tasks will be loaded here dynamically -->
+                </div>
+                <button onclick="showCreateTaskForm()">Create New Task</button>
+                <!-- New button for creating a task -->
+                <!-- Create Task Form -->
+                <div class="col-md-4">
+                    <h3>Create New Task</h3>
+                    <form asp-action="CreateTask" method="post" id="createTaskForm">
+                        <input type="hidden" id="selectedListId" name="ListId" />
+                        <input type="text" name="TaskTitle" placeholder="Task Title" required />
+                        <select name="TaskPriority">
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                        <input type="text" name="TaskTag" placeholder="Task Tag" />
+                        <input type="date" name="TaskDate" placeholder="Task Date" />
+                        <input type="time" name="TaskStartTime" placeholder="Task Start Time" />
+                        <input type="time" name="TaskEndTime" placeholder="Task End Time" />
+                        <!-- Add more input fields for other properties -->
+                        <select name="TaskDifficulty">
+                            <option value="Low">Low</option>
+                                                    <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                        <input type="checkbox" name="TaskStatus" id="TaskStatus" />
+
+                        <!-- Add more input fields as needed for other properties -->
+                        <button type="submit">Create</button>
+                    </form>
+                </div>
+
+            </div>
+
+
+            <!-- Right Section: Task Details -->
+            <div class="col-md-4">
+                <h3>Task Details</h3>
+                <div id="taskDetailsContainer">
+                    <!-- Task details will be loaded here dynamically -->
+                </div>
+            </div>
+
+            <!-- Edit List Form -->
+            <div id="editListForm" style="display: none;">
+                <h3>Edit List</h3>
+                <form asp-action="EditList" method="post">
+                    <input type="hidden" name="ListId" />
+                    <input type="text" name="ListTitle" placeholder="List Title" required />
+                    <input type="text" name="ListCategory" placeholder="List Category" />
+                    <button type="button" onclick="editList()">Save</button>
+                </form>
+            </div>
+
+            <!-- Edit Task Form -->
+            <div id="editTaskForm" style="display: none;">
+                <h3>Edit Task</h3>
+                <form asp-action="EditTask" method="post">
+                    <input type="hidden" name="TaskId" />
+                    <input type="text" name="TaskTitle" placeholder="Task Title" required />
+                    <select name="TaskPriority">
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                    <!-- Add other input fields for editing other properties -->
+                    <button type="button" onclick="editTask()">Save</button>
+                </form>
+            </div>
         </div>
-    </div>
+    </section>
 
+    @section scripts {
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                // Event delegation for dynamically added elements
+                $(document).on('click', '.list-link', function () {
+                    var listId = $(this).data('listid');
+                    if (listId === @Model.AllListId || listId === @Model.TodayListId || listId === @Model.TomorrowListId) {
+                        // Handle All, Today, and Tomorrow lists separately
+                        loadSpecialListTasks(listId);
+                    } else {
+                        loadListTasks(listId);
+                    }
+                    // Set the selectedListId variable
+                    $('#selectedListId').val(listId);
+                });
 
-    <!-- Middle Section: List Tasks -->
-    <div class="col-md-4">
-        <h3>List Tasks</h3>
-        <div id="listTasksContainer">
-            <!-- Tasks will be loaded here dynamically -->
-        </div>
-        <button onclick="showCreateTaskForm()">Create New Task</button> <!-- New button for creating a task -->
-        <!-- Create Task Form -->
-        <div class="col-md-4">
-            <h3>Create New Task</h3>
-            <form asp-action="CreateTask" method="post" id="createTaskForm">
-                <input type="hidden" id="selectedListId" name="ListId" />
-                <input type="text" name="TaskTitle" placeholder="Task Title" required />
-                <select name="TaskPriority">
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High">High</option>
-                </select>
-                <input type="text" name="TaskTag" placeholder="Task Tag" />
-                <input type="date" name="TaskDate" placeholder="Task Date" /> 
-                <input type="time" name="TaskStartTime" placeholder="Task Start Time" />
-                <input type="time" name="TaskEndTime" placeholder="Task End Time" />
-                <!-- Add more input fields for other properties -->
-                <select name="TaskDifficulty">
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High">High</option>
-                </select>
-                <input type="checkbox" name="TaskStatus" id="TaskStatus" />
-                
-                <!-- Add more input fields as needed for other properties -->
-                <button type="submit">Create</button>
-            </form>
-        </div>
-
-    </div>
-
-
-    <!-- Right Section: Task Details -->
-    <div class="col-md-4">
-        <h3>Task Details</h3>
-        <div id="taskDetailsContainer">
-            <!-- Task details will be loaded here dynamically -->
-        </div>
-    </div>
-
-    <!-- Edit List Form -->
-    <div id="editListForm" style="display: none;">
-        <h3>Edit List</h3>
-        <form asp-action="EditList" method="post">
-            <input type="hidden" name="ListId" />
-            <input type="text" name="ListTitle" placeholder="List Title" required />
-            <input type="text" name="ListCategory" placeholder="List Category" />
-            <button type="button" onclick="editList()">Save</button>
-        </form>
-    </div>
-
-    <!-- Edit Task Form -->
-    <div id="editTaskForm" style="display: none;">
-        <h3>Edit Task</h3>
-        <form asp-action="EditTask" method="post">
-            <input type="hidden" name="TaskId" />
-            <input type="text" name="TaskTitle" placeholder="Task Title" required />
-            <select name="TaskPriority">
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-            </select>
-            <!-- Add other input fields for editing other properties -->
-            <button type="button" onclick="editTask()">Save</button>
-        </form>
-    </div>
-</div>
-
-
-
-
-
-@section scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            // Event delegation for dynamically added elements
-            $(document).on('click', '.list-link', function () {
-                var listId = $(this).data('listid');
-                if (listId === @Model.AllListId || listId === @Model.TodayListId || listId === @Model.TomorrowListId) {
-                    // Handle All, Today, and Tomorrow lists separately
-                    loadSpecialListTasks(listId);
-                } else {
-                    loadListTasks(listId);
-                }
-                // Set the selectedListId variable
-                $('#selectedListId').val(listId);
+                // Event handler for delete-list button
+                $(document).on('click', '.delete-list', function () {
+                    var listId = $(this).data('listid');
+                    deleteList(listId);
+                });
             });
 
-            // Event handler for delete-list button
-            $(document).on('click', '.delete-list', function () {
-                var listId = $(this).data('listid');
-                deleteList(listId);
-            });
-        });
-
-        function loadListTasks(listId) {
-            $.ajax({
-                url: '/TimeManagement/ListTasks/' + listId,
-                type: 'GET',
-                success: function (data) {
-                    $('#listTasksContainer').html(data);
-                }
-            });
-        }
-
-        function loadTaskDetails(taskId) {
-            $.ajax({
-                url: '/TimeManagement/TaskDetails/' + taskId,
-                type: 'GET',
-                success: function (data) {
-                    $('#taskDetailsContainer').html(data);
-                }
-            });
-        }
-
-        function deleteList(listId) {
-            // Send an AJAX request to delete the list
-            $.ajax({
-                url: '/TimeManagement/DeleteList/' + listId,
-                type: 'POST',
-                success: function (data) {
-                    // Refresh the page or update the UI as needed
-                    location.reload(); // For example, reload the page
-                }
-            });
-        }
-
-        function deleteTask(taskId) {
-            // Send an AJAX request to delete the task
-            $.ajax({
-                url: '/TimeManagement/DeleteTask/' + taskId,
-                type: 'POST',
-                success: function (data) {
-                    // Refresh the page or update the UI as needed
-                    // For example, reload tasks for the selected list
-                    var listId = $('#selectedListId').val();
-                    loadListTasks(listId);
-                }
-            });
-        }
-
-        function loadSpecialListTasks(listId) {
-            switch (listId) {
-                case @Model.AllListId:
-                    loadAllTasks();
-                    break;
-                case @Model.TodayListId:
-                    loadTodayTasks();
-                    break;
-                case @Model.TomorrowListId:
-                    loadTomorrowTasks();
-                    break;
+            function loadListTasks(listId) {
+                $.ajax({
+                    url: '/TimeManagement/ListTasks/' + listId,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#listTasksContainer').html(data);
+                    }
+                });
             }
-        }
 
-        function loadAllTasks() {
-            $.ajax({
-                url: '/TimeManagement/AllTasks',
-                type: 'GET',
-                success: function (data) {
-                    $('#listTasksContainer').html(data);
+            function loadTaskDetails(taskId) {
+                $.ajax({
+                    url: '/TimeManagement/TaskDetails/' + taskId,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#taskDetailsContainer').html(data);
+                    }
+                });
+            }
+
+            function deleteList(listId) {
+                // Send an AJAX request to delete the list
+                $.ajax({
+                    url: '/TimeManagement/DeleteList/' + listId,
+                    type: 'POST',
+                    success: function (data) {
+                        // Refresh the page or update the UI as needed
+                        location.reload(); // For example, reload the page
+                    }
+                });
+            }
+
+            function deleteTask(taskId) {
+                // Send an AJAX request to delete the task
+                $.ajax({
+                    url: '/TimeManagement/DeleteTask/' + taskId,
+                    type: 'POST',
+                    success: function (data) {
+                        // Refresh the page or update the UI as needed
+                        // For example, reload tasks for the selected list
+                        var listId = $('#selectedListId').val();
+                        loadListTasks(listId);
+                    }
+                });
+            }
+
+            function loadSpecialListTasks(listId) {
+                switch (listId) {
+                    case @Model.AllListId:
+                        loadAllTasks();
+                        break;
+                    case @Model.TodayListId:
+                        loadTodayTasks();
+                        break;
+                    case @Model.TomorrowListId:
+                        loadTomorrowTasks();
+                        break;
                 }
+            }
+
+            function loadAllTasks() {
+                $.ajax({
+                    url: '/TimeManagement/AllTasks',
+                    type: 'GET',
+                    success: function (data) {
+                        $('#listTasksContainer').html(data);
+                    }
+                });
+            }
+
+            function loadTodayTasks() {
+                $.ajax({
+                    url: '/TimeManagement/TodayTasks',
+                    type: 'GET',
+                    success: function (data) {
+                        $('#listTasksContainer').html(data);
+                    }
+                });
+            }
+
+            function loadTomorrowTasks() {
+                $.ajax({
+                    url: '/TimeManagement/TomorrowTasks',
+                    type: 'GET',
+                    success: function (data) {
+                        $('#listTasksContainer').html(data);
+                    }
+                });
+            }
+
+            function showCreateListForm() {
+                $('#createListForm').toggle();
+            }
+
+            function showCreateTaskForm() {
+                $('#createTaskForm').toggle();
+            }
+
+            $('#createListForm form').submit(function (event) {
+                event.preventDefault();
+                createList();
             });
-        }
 
-        function loadTodayTasks() {
-            $.ajax({
-                url: '/TimeManagement/TodayTasks',
-                type: 'GET',
-                success: function (data) {
-                    $('#listTasksContainer').html(data);
-                }
+            $('#createTaskForm form').submit(function (event) {
+                event.preventDefault();
+                createTask();
             });
-        }
 
-        function loadTomorrowTasks() {
-            $.ajax({
-                url: '/TimeManagement/TomorrowTasks',
-                type: 'GET',
-                success: function (data) {
-                    $('#listTasksContainer').html(data);
-                }
-            });
-        }
-
-        function showCreateListForm() {
-            $('#createListForm').toggle();
-        }
-
-        function showCreateTaskForm() {
-            $('#createTaskForm').toggle();
-        }
-
-        $('#createListForm form').submit(function (event) {
-            event.preventDefault();
-            createList();
-        });
-
-        $('#createTaskForm form').submit(function (event) {
-            event.preventDefault();
-            createTask();
-        });
-
-        function createList() {
-            var listTitle = $('#createListForm input[name="ListTitle"]').val();
-            $.ajax({
-                url: '/TimeManagement/CreateList',
-                type: 'POST',
-                data: { ListTitle: listTitle },
-                success: function (data) {
-                    // Refresh the page or update the list dynamically
-                    location.reload(); // Refresh the page
-                }
-            });
-        }
+            function createList() {
+                var listTitle = $('#createListForm input[name="ListTitle"]').val();
+                $.ajax({
+                    url: '/TimeManagement/CreateList',
+                    type: 'POST',
+                    data: { ListTitle: listTitle },
+                    success: function (data) {
+                        // Refresh the page or update the list dynamically
+                        location.reload(); // Refresh the page
+                    }
+                });
+            }
 
 
-        function showEditListForm(listId) {
-            // Make an AJAX request to fetch the details of the list with the specified ID
-            $.ajax({
-                url: '/TimeManagement/GetListDetails/' + listId,
-                type: 'GET',
-                success: function (data) {
-                    // Populate the form fields with the fetched data
-                    $('#editListForm input[name="ListId"]').val(data.listId);
-                    $('#editListForm input[name="ListTitle"]').val(data.listTitle);
-                    $('#editListForm input[name="ListCategory"]').val(data.listCategory);
+            function showEditListForm(listId) {
+                // Make an AJAX request to fetch the details of the list with the specified ID
+                $.ajax({
+                    url: '/TimeManagement/GetListDetails/' + listId,
+                    type: 'GET',
+                    success: function (data) {
+                        // Populate the form fields with the fetched data
+                        $('#editListForm input[name="ListId"]').val(data.listId);
+                        $('#editListForm input[name="ListTitle"]').val(data.listTitle);
+                        $('#editListForm input[name="ListCategory"]').val(data.listCategory);
 
-                    // Display the edit list form
-                    $('#editListForm').show();
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error fetching list details:', error);
-                }
-            });
-        }
+                        // Display the edit list form
+                        $('#editListForm').show();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching list details:', error);
+                    }
+                });
+            }
 
-        function showEditTaskForm(taskId) {
-            // Make an AJAX request to fetch the details of the task with the specified ID
-            $.ajax({
-                url: '/TimeManagement/GetTaskDetails/' + taskId,
-                type: 'GET',
-                success: function (data) {
-                    // Populate the form fields with the fetched data
-                    $('#editTaskForm input[name="TaskId"]').val(data.taskId);
-                    $('#editTaskForm input[name="TaskTitle"]').val(data.taskTitle);
-                    $('#editTaskForm select[name="TaskPriority"]').val(data.taskPriority);
-                    // Populate other fields similarly
+            function showEditTaskForm(taskId) {
+                // Make an AJAX request to fetch the details of the task with the specified ID
+                $.ajax({
+                    url: '/TimeManagement/GetTaskDetails/' + taskId,
+                    type: 'GET',
+                    success: function (data) {
+                        // Populate the form fields with the fetched data
+                        $('#editTaskForm input[name="TaskId"]').val(data.taskId);
+                        $('#editTaskForm input[name="TaskTitle"]').val(data.taskTitle);
+                        $('#editTaskForm select[name="TaskPriority"]').val(data.taskPriority);
+                        // Populate other fields similarly
 
-                    // Display the edit task form
-                    $('#editTaskForm').show();
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error fetching task details:', error);
-                }
-            });
-        }
+                        // Display the edit task form
+                        $('#editTaskForm').show();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching task details:', error);
+                    }
+                });
+            }
 
-        function editList() {
-            var listId = $('#editListForm input[name="ListId"]').val();
-            var updatedList = {
-                ListId: listId,
-                ListTitle: $('#editListForm input[name="ListTitle"]').val(),
-                ListCategory: $('#editListForm input[name="ListCategory"]').val()
-                // Add other properties as needed
-            };
-
-            $.ajax({
-                url: '/TimeManagement/EditList',
-                type: 'POST',
-                data: updatedList,
-                success: function (data) {
-                    // Hide the edit form and perform any necessary actions
-                    $('#editListForm').hide();
-                    // For example, you may want to refresh the page or update the UI
-                    location.reload();
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error editing list:', error);
-                }
-            });
-        }
-
-        function editTask() {
-            var taskId = $('#editTaskForm input[name="TaskId"]').val();
-            var updatedTask = {
-                TaskId: taskId,
-                TaskTitle: $('#editTaskForm input[name="TaskTitle"]').val(),
-                TaskPriority: $('#editTaskForm select[name="TaskPriority"]').val()
-                // Add other properties as needed
-            };
-
-            $.ajax({
-                url: '/TimeManagement/EditTask',
-                type: 'POST',
-                data: updatedTask,
-                success: function (data) {
-                    // Hide the edit form and perform any necessary actions
-                    $('#editTaskForm').hide();
-                    // For example, you may want to refresh the page or update the UI
-                    location.reload();
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error editing task:', error);
-                }
-            });
-        }
-
-        function createTask() {
-            var taskTitle = $('#createTaskForm input[name="TaskTitle"]').val();
-            var taskPriority = $('#createTaskForm select[name="TaskPriority"]').val();
-            var taskTag = $('#createTaskForm input[name="TaskTag"]').val();
-            var taskDate = $('#createTaskForm input[name="TaskDate"]').val();
-            var taskStartTime = $('#createTaskForm input[name="TaskStartTime"]').val();
-            var taskEndTime = $('#createTaskForm input[name="TaskEndTime"]').val();
-            var taskDifficulty = $('#createTaskForm select[name="TaskDifficulty"]').val();
-
-            var listId = $('#selectedListId').val();
-
-            $.ajax({
-                url: '/TimeManagement/CreateTask',
-                type: 'POST',
-                data: {
+            function editList() {
+                var listId = $('#editListForm input[name="ListId"]').val();
+                var updatedList = {
                     ListId: listId,
-                    TaskTitle: taskTitle,
-                    TaskPriority: taskPriority,
-                    TaskTag: taskTag,
-                    TaskDate: taskDate,
-                    TaskStartTime: taskStartTime,
-                    TaskEndTime: taskEndTime,
-                    TaskDifficulty: taskDifficulty,
-                    TaskStatus: taskStatus
-                },
-                success: function (data) {
-                    // Refresh the page or update the tasks dynamically
-                    loadListTasks(listId); // Reload tasks for the selected list
-                }
-            });
-        }
+                    ListTitle: $('#editListForm input[name="ListTitle"]').val(),
+                    ListCategory: $('#editListForm input[name="ListCategory"]').val()
+                    // Add other properties as needed
+                };
 
-        function updateTaskStatus(taskId, isChecked) {
-            $.ajax({
-                url: '/TimeManagement/UpdateTaskStatus/' + taskId,
-                type: 'POST',
-                data: { id: taskId, isChecked: isChecked }, // Ensure that the checkbox value is correctly passed
-                success: function (data) {
-                    // Optionally, update the UI to reflect the new task status
-                    console.log('Task status updated successfully');
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error updating task status:', error);
-                }
-            });
-        }
+                $.ajax({
+                    url: '/TimeManagement/EditList',
+                    type: 'POST',
+                    data: updatedList,
+                    success: function (data) {
+                        // Hide the edit form and perform any necessary actions
+                        $('#editListForm').hide();
+                        // For example, you may want to refresh the page or update the UI
+                        location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error editing list:', error);
+                    }
+                });
+            }
 
-    </script>
-}
+            function editTask() {
+                var taskId = $('#editTaskForm input[name="TaskId"]').val();
+                var updatedTask = {
+                    TaskId: taskId,
+                    TaskTitle: $('#editTaskForm input[name="TaskTitle"]').val(),
+                    TaskPriority: $('#editTaskForm select[name="TaskPriority"]').val()
+                    // Add other properties as needed
+                };
+
+                $.ajax({
+                    url: '/TimeManagement/EditTask',
+                    type: 'POST',
+                    data: updatedTask,
+                    success: function (data) {
+                        // Hide the edit form and perform any necessary actions
+                        $('#editTaskForm').hide();
+                        // For example, you may want to refresh the page or update the UI
+                        location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error editing task:', error);
+                    }
+                });
+            }
+
+            function createTask() {
+                var taskTitle = $('#createTaskForm input[name="TaskTitle"]').val();
+                var taskPriority = $('#createTaskForm select[name="TaskPriority"]').val();
+                var taskTag = $('#createTaskForm input[name="TaskTag"]').val();
+                var taskDate = $('#createTaskForm input[name="TaskDate"]').val();
+                var taskStartTime = $('#createTaskForm input[name="TaskStartTime"]').val();
+                var taskEndTime = $('#createTaskForm input[name="TaskEndTime"]').val();
+                var taskDifficulty = $('#createTaskForm select[name="TaskDifficulty"]').val();
+
+                var listId = $('#selectedListId').val();
+
+                $.ajax({
+                    url: '/TimeManagement/CreateTask',
+                    type: 'POST',
+                    data: {
+                        ListId: listId,
+                        TaskTitle: taskTitle,
+                        TaskPriority: taskPriority,
+                        TaskTag: taskTag,
+                        TaskDate: taskDate,
+                        TaskStartTime: taskStartTime,
+                        TaskEndTime: taskEndTime,
+                        TaskDifficulty: taskDifficulty,
+                        TaskStatus: taskStatus
+                    },
+                    success: function (data) {
+                        // Refresh the page or update the tasks dynamically
+                        loadListTasks(listId); // Reload tasks for the selected list
+                    }
+                });
+            }
+
+            function updateTaskStatus(taskId, isChecked) {
+                $.ajax({
+                    url: '/TimeManagement/UpdateTaskStatus/' + taskId,
+                    type: 'POST',
+                    data: { id: taskId, isChecked: isChecked }, // Ensure that the checkbox value is correctly passed
+                    success: function (data) {
+                        // Optionally, update the UI to reflect the new task status
+                        console.log('Task status updated successfully');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error updating task status:', error);
+                    }
+                });
+            }
+
+        </script>
+
+    </html>
+    }
+
