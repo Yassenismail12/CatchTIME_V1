@@ -1,75 +1,123 @@
-﻿a@model IEnumerable<TESTT.Models.Task>
-
+﻿@model IEnumerable<TESTT.Models.Task>
 @{
-    ViewData["Title"] = "Task Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Task Dashboard";
 }
 
-<div class="container mt-4">
-    <h1 class="mb-4">Task List</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <div class="row mb-3">
-        <div class="col">
-            <a asp-action="Create" class="btn btn-primary">Add New Task</a>
-        </div>
-    </div>
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <!-- My CSS -->
+    <link rel="stylesheet" href="@Url.Action("~/css/Dashboard/style.css")">
 
-    <div class="row">
-        @foreach (var task in Model)
-        {
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                            <h5 class="card-title task-title" data-task-id="@task.TaskId">@task.TaskTitle</h5>
-                        <p class="card-text">
-                                Priority: @task.TaskPriority <br />
-                                Difficulty: @task.TaskDifficulty
-                        </p>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input status-checkbox" data-task-id="@task.TaskId" checked="@task.TaskStatus" />
-                            <label class="form-check-label">Completed</label>
-                        </div>
-                    </div>
-                    <div class="card-footer text-right">
-                        <a asp-action="Edit" asp-route-id="@task.TaskId" class="btn btn-primary btn-sm">Edit</a>
-                        <a asp-action="Details" asp-route-id="@task.TaskId" class="btn btn-primary btn-sm">Details</a>
-                        <a asp-action="Delete" asp-route-id="@task.TaskId" class="btn btn-danger btn-sm">Delete</a>
-                    </div>
+    <title>Task Dashboard</title>
+</head>
+<body>
+    <section id="sidebar">
+        <a href="@Url.Action("Index", "Dashboard")" class="brand">
+            <img src="~/Dashboard_Images/Main.png" alt="CatchTIME" width="200px" height="200px" id="logo-collapse">
+        </a>
+        <ul class="side-menu top">
+            <li class="@((ViewBag.List == "Today") ? "active" : "")">
+                <a href="@Url.Action("Index", new { list = "Today" })">
+                    <i class='bx bxs-calendar'></i>
+                    <span class="text">Today</span>
+                </a>
+            </li>
+            <li class="@((ViewBag.List == "Tomorrow") ? "active" : "")">
+                <a href="@Url.Action("Index", new { list = "Tomorrow" })">
+                    <i class='bx bxs-calendar'></i>
+                    <span class="text">Tomorrow</span>
+                </a>
+            </li>
+            <li class="@((ViewBag.List == "All") ? "active" : "")">
+                <a href="@Url.Action("Index", new { list = "All" })">
+                    <i class='bx bxs-calendar'></i>
+                    <span class="text">All Tasks</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+
+    <section id="content">
+        <nav>
+            <i class='bx bx-menu'></i>
+            <form action="#">
+                <div class="form-input">
+                    <input type="search" placeholder="Search...">
+                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+                </div>
+            </form>
+            <input type="checkbox" id="switch-mode" hidden>
+            <label for="switch-mode" class="switch-mode"></label>
+            <a href="#" class="notification">
+                <i class='bx bxs-bell'></i>
+                <span class="num">8</span>
+            </a>
+            <a href="#" class="profile">
+                <img src="~/Dashboard_Images/people.png" alt="User">
+            </a>
+        </nav>
+
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Tasks - @ViewBag.List</h1>
+                </div>
+                <div class="right">
+                    <a href="@Url.Action("Create")" class="btn btn-primary">Create Task</a>
                 </div>
             </div>
-        }
-    </div>
-</div>
 
-@section scripts {
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+            <div class="tasks-container">
+                @foreach (var task in Model)
+                {
+                    <div class="task-box">
+                        <h3>@task.TaskTitle</h3>
+                        <p>@task.TaskDate?.ToString("yyyy-MM-dd")</p>
+                        <div class="task-actions">
+                            <a href="@Url.Action("Edit", new { id = task.TaskId })" class="btn-edit"><i class='bx bx-edit'></i></a>
+                            <a href="@Url.Action("Delete", new { id = task.TaskId })" class="btn-delete"><i class='bx bx-trash'></i></a>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div id="task-details" class="task-details">
+                <h2>Task Details</h2>
+                <div class="task-details-content">
+                    <h3 id="detail-title"></h3>
+                    <p id="detail-date"></p>
+                    <p id="detail-info"></p>
+                </div>
+            </div>
+        </main>
+    </section>
+
+    <!-- Custom JS for showing task details -->
     <script>
-        $(document).ready(function () {
-            $('.status-checkbox').change(function () {
-                var taskId = $(this).data('task-id');
-                var isChecked = $(this).prop('checked');
-                updateTaskStatus(taskId, isChecked);
+        document.addEventListener("DOMContentLoaded", function () {
+            const taskBoxes = document.querySelectorAll(".task-box");
+            const detailTitle = document.getElementById("detail-title");
+            const detailDate = document.getElementById("detail-date");
+            const detailInfo = document.getElementById("detail-info");
+
+            taskBoxes.forEach(box => {
+                box.addEventListener("click", function () {
+                    const title = this.querySelector("h3").innerText;
+                    const date = this.querySelector("p").innerText;
+                    const info = this.dataset.info;  // Add data-info attribute to task-box if needed
+
+                    detailTitle.innerText = title;
+                    detailDate.innerText = date;
+                    detailInfo.innerText = info;
+                });
             });
         });
-
-        function updateTaskStatus(taskId, isChecked) {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("UpdateStatus", "Task")',
-                data: { taskId: taskId },
-                success: function (result) {
-                    console.log('Task status updated successfully.');
-                    updateCardStyle(taskId, isChecked);
-                },
-                error: function (error) {
-                    console.error('Error updating task status: ', error);
-                }
-            });
-        }
-
-        function updateCardStyle(taskId, isChecked) {
-            var $taskTitle = $('.task-title[data-task-id="' + taskId + '"]');
-            $taskTitle.css('color', isChecked ? 'grey' : 'black');
-        }
     </script>
-}
+</body>
+</html>
