@@ -3,6 +3,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Catch TIME</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css" />
     <link rel="stylesheet" href="@Url.Content("~/css/Home_animate.css")" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
@@ -27,8 +29,8 @@
                     <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="2">Features</a> </li>
                     <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="3">Team</a> </li>
                     <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="4">Testimonials</a> </li>
-                    <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="5">Faq</a> </li>
-                    <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="6">Contact</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="5">Mission</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="6">Join</a> </li>
                 </ul>
             </div>
         </div>
@@ -50,7 +52,7 @@
                                         <img src="@Url.Content("~/Home_images/appstore.png")" class="wow fadeInUp" data-wow-delay="0.4s" />
                                     </a>
                                 </li>
-                                <li><a href="#"><img src="Home_images/playstore.png" class="wow fadeInUp" data-wow-delay="0.7s" /></a></li>
+                                <li><a href="@Url.Action("Create", "Account")"><img src="Home_images/playstore.png" class="wow fadeInUp" data-wow-delay="0.7s" /></a></li>
                             </ul>
                         </div>
                     </div>
@@ -71,29 +73,64 @@
                     <div class="sectioner-header text-center">
                         <h3>About</h3>
                         <span class="line"></span>
-                        <p>Our app provides you some great features as To-Do list and Time Blocking that will help you manage and use your time in a productive manner.</p>
+                        <p>Welcome to Catch Time!
+                           We're thrilled to have you here. 
+                           Catch Time is more than just a time management app—it's your personal assistant for staying organized, productive, and on top of your game.
+                           Whether you're juggling school, work, or personal projects, we're here to help you catch every moment..</p>
                     </div>
                     <div class="section-content text-center">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="icon-box wow fadeInUp" data-wow-delay="0.2s">
-                                    <i class="fa fa-life-ring" aria-hidden="true"></i>
-                                    <h5>Support</h5>
-                                    <p></p>
+                                    <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
+                                    <h5>Easy Task Scheduling</h5>
+                                    <p>
+                                        Keep your day organized with our simple task scheduler. Set priorities, deadlines, and get reminders so nothing slips through the cracks.
+                                    </p>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="icon-box wow fadeInUp" data-wow-delay="0.4s">
-                                    <i class="fa fa-mobile" aria-hidden="true"></i>
-                                    <h5>Cross Platform</h5>
-                                    <p>Phasellus lobortis justo a magna facilisis, in commodo tellus rutrum. Sed vitae condimentum nulla.</p>
+                                    <i class="fa-solid fa-bullseye" aria-hidden="true"></i>
+                                    <h5>Achieve Your Goals</h5>
+                                    <p>
+                                        Set and track your goals, big or small. We'll help you break them down into manageable steps so you can see your progress and stay motivated.
+                                    </p>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="icon-box wow fadeInUp" data-wow-delay="0.6s">
-                                    <i class="fa fa-bolt" aria-hidden="true"></i>
-                                    <h5>Fast</h5>
-                                    <p>Phasellus lobortis justo a magna facilisis, in commodo tellus rutrum. Sed vitae condimentum nulla.</p>
+                                    <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                                    <h5>Track Your Time</h5>
+                                    <p>
+                                        Get insights into how you spend your time. Our time tracking feature helps you identify patterns, so you can make the most of your productive hours.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="icon-box wow fadeInUp" data-wow-delay="0.8s">
+                                    <i class='bx bx-timer' aria-hidden="true"></i>
+                                    <h5>Stay Focused with Pomodoro</h5>
+                                    <p>
+                                        Use our Pomodoro timer to work in focused bursts with breaks in between. It's a great way to stay fresh and avoid burnout.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="icon-box wow fadeInUp" data-wow-delay="1.0s">
+                                    <i class='bx bx-sync' aria-hidden="true"></i>
+                                    <h5>Seamless Calendar Sync</h5>
+                                    <p>
+                                        Sync CatchTIME with your calendar to keep all your tasks and deadlines in one place. Planning your day has never been easier.
+                                        
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="icon-box wow fadeInUp" data-wow-delay="1.2s">
+                                    <i class='bx bx-customize' aria-hidden="true"></i>
+                                    <h5>Make It Yours</h5>
+                                    <p>Customize the app to fit your style with different themes, notification settings, and more.</p>
                                 </div>
                             </div>
                         </div>
@@ -267,133 +304,35 @@
     </section>
 
     <!-------Testimonial End------->
-    <!-------FAQ Start------->
-    <section class="faq section-padding prelative" data-scroll-index='5'>
+    <section class="team section-padding" data-scroll-index='3'>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="sectioner-header text-center">
-                        <h3>Frequently Asked Questions</h3>
+                        <h3>Our Mission</h3>
                         <span class="line"></span>
-                        <p>Sed quis nisi nisi. Proin consectetur porttitor dui sit amet viverra. Fusce sit amet lorem faucibus, vestibulum ante in, pharetra ante.</p>
-                    </div>
-                    <div class="section-content">
-                        <div class="row">
-                            <div class="col-md-6 faq-content wow fadeInUp" data-wow-delay="0.2s">
-                                <h4>Nam tellus felis, dignissim quis dui ?</h4>
-                                <p>Suspendisse fermentum placerat enim, at pellentesque augue. Nullam elit est, ultricies et tellus ac, euismod placerat orci. Donec commodo.</p>
-                            </div>
-                            <div class="col-md-6 faq-content wow fadeInUp" data-wow-delay="0.2s">
-                                <h4>Mauris scelerisque, dui non faucibus vulputate ?</h4>
-                                <p>Sed tempus in neque ac rhoncus. Phasellus vehicula, erat tempor malesuada egestas, mauris tellus malesuada erat, at vestibulum nulla ex et lectus. Nullam elit est, ultricies et tellus ac, euismod placerat orci.</p>
-                            </div>
-                            <div class="col-md-6 faq-content wow fadeInUp" data-wow-delay="0.4s">
-                                <h4>Nullam elit est, ultricies et tellus ac ?</h4>
-                                <p>Ut vestibulum euismod aliquet. Quisque nec malesuada nibh. Vivamus euismod nunc eu leo faucibus, vel elementum justo posuere. In sed varius nisi. Curabitur id porta ipsum, et vestibulum dui.</p>
-                            </div>
-                            <div class="col-md-6 faq-content wow fadeInUp" data-wow-delay="0.4s">
-                                <h4>Suspendisse fermentum placerat enim, at pellentesque augue elit est ?</h4>
-                                <p>Vivamus euismod nunc eu leo faucibus, vel elementum justo posuere. In sed varius nisi.</p>
-                            </div>
-                            <div class="col-md-6 faq-content wow fadeInUp" data-wow-delay="0.6s">
-                                <h4>Ut vestibulum euismod aliquet. Quisque nec malesuada nibh ?</h4>
-                                <p>Suspendisse fermentum placerat enim, at pellentesque augue. Nullam elit est, ultricies et tellus ac, euismod placerat orci. Donec commodo dapibus congue.</p>
-                            </div>
-                            <div class="col-md-6 faq-content wow fadeInUp" data-wow-delay="0.6s">
-                                <h4>Donec commodo dapibus congue ?</h4>
-                                <p>Nullam elit est, ultricies et tellus ac, euismod placerat orci fermentum placerat enim, at pellentesque augue. Nullam elit est, ultricies et tellus ac, euismod placerat orci. Donec commodo dapibus congue.</p>
-                            </div>
-                        </div>
+                        <p>At CatchTIME, our mission is to help you take control of your time and achieve your best self. We believe that everyone deserves to live a balanced, productive, and fulfilling life, and we're here to provide the tools and support you need to make that happen.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-------FAQ End------->
-    <!-------Contact Start------->
-    <section class="contact section-padding" data-scroll-index='6'>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="sectioner-header text-center">
-                        <h3>Contact us</h3>
-                        <span class="line"></span>
-                        <p>Sed quis nisi nisi. Proin consectetur porttitor dui sit amet viverra. Fusce sit amet lorem faucibus, vestibulum ante in, pharetra ante.</p>
-                    </div>
-                    <div class="section-content">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-12 col-lg-8">
-                                <form id="contact_form" action="">
-                                    <div class="row">
-                                        <div class="col">
-                                            <input type="text" id="your_name" class="form-input w-100" name="full-name" placeholder="Full Name" required>
-                                        </div>
-                                        <div class="col">
-                                            <input type="email" id="email" class="form-input w-100" name="email" placeholder="Email" required>
-                                        </div>
-                                    </div>
-                                    <input type="text" id="subject" class="form-input w-100" name="subject" placeholder="Subject">
-                                    <textarea class="form-input w-100" id="message" placeholder="Message" name="message"></textarea>
-                                    <button class="btn-grad w-100 text-uppercase" type="submit" name="button">submit</button>
-                                </form>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-4">
-                                <div class="contact-info white">
-                                    <div class="contact-item media">
-                                        <i class="fa fa-map-marker-alt media-left media-right-margin"></i>
-                                        <div class="media-body">
-                                            <p class="text-uppercase">Address</p>
-                                            <p class="text-uppercase">New Delhi, India</p>
-                                        </div>
-                                    </div>
-                                    <div class="contact-item media">
-                                        <i class="fa fa-mobile media-left media-right-margin"></i>
-                                        <div class="media-body">
-                                            <p class="text-uppercase">Phone</p>
-                                            <p class="text-uppercase"><a class="text-white" href="tel:+15173977100">009900990099</a> </p>
-                                        </div>
-                                    </div>
-                                    <div class="contact-item media">
-                                        <i class="fa fa-envelope media-left media-right-margin"></i>
-                                        <div class="media-body">
-                                            <p class="text-uppercase">E-mail</p>
-                                            <p class="text-uppercase"><a class="text-white" href="mailto:abcdefg@gmail.com">yogeshsingh.now@gmail.com</a> </p>
-                                        </div>
-                                    </div>
-                                    <div class="contact-item media">
-                                        <i class="fa fa-clock media-left media-right-margin"></i>
-                                        <div class="media-body">
-                                            <p class="text-uppercase">Working Hours</p>
-                                            <p class="text-uppercase">Mon-Fri 9.00 AM to 5.00PM.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-------Contact End------->
     <!-------Download End------->
     <section class="download section-padding">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="sectioner-header text-center white">
-                        <h3>Download Our App</h3>
+                        <h3>Join Us!</h3>
                         <span class="line"></span>
-                        <p class="white">Sed quis nisi nisi. Proin consectetur porttitor dui sit amet viverra. Fusce sit amet lorem faucibus, vestibulum ante in, pharetra ante.</p>
+                        <p class="white">Join us and unlock a world of possibilities! Sign up today to streamline your tasks, achieve your goals faster, and experience unparalleled efficiency</p>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="section-content text-center">
                         <ul>
-                            <li><a href="#"><img src="/Home_images/appstore.png" class="wow fadeInUp" data-wow-delay="0.4s" /></a></li>
-                            <li><a href="#"><img src="/Home_images/playstore.png" class="wow fadeInUp" data-wow-delay="0.7s" /></a></li>
+                            <li><a href="@Url.Action("Login", "Account")"><img src="/Home_images/appstore.png" class="wow fadeInUp" data-wow-delay="0.4s" /></a></li>
+                            <li><a href="@Url.Action("Create", "Account")"><img src="/Home_images/playstore.png" class="wow fadeInUp" data-wow-delay="0.7s" /></a></li>
                         </ul>
                     </div>
                 </div>
@@ -408,12 +347,15 @@
             <div class="row">
                 <div class="col-md-12">
                     <p>2024 &copy; CatchTIME.</p>
+                    <p>Faculty Of Computers And Artificial Intelligence</p>
+                    <p>Matrouh Universty </p>
                 </div>
             </div>
         </div>
     </footer>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 
-
+    <script src="https://kit.fontawesome.com/85940c58c2.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
