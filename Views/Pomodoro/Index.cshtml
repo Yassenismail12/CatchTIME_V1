@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="@Url.Action("~/css/pomodoro.css")">
+    <link rel="stylesheet" href="@Url.Content("~/css/pomodoro.css")">
     <style>
         body {
             background-color: #f8f9fa;
@@ -25,7 +25,7 @@
         }
 
         .card-header {
-            background-color: #343a40;
+            background-color: #469cf1;
             color: #fff;
             border-radius: 15px 15px 0 0;
             text-align: center;
@@ -59,9 +59,42 @@
             font-size: 4rem;
             color: #007bff;
         }
+
+        /* Navbar styles */
+        .navbar {
+            background-color: #469cf1;
+            padding: 10px 20px;
+        }
+
+        .navbar-brand {
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .back-button {
+            color: #fff;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a class="navbar-brand" href="#">
+            <img src="@Url.Content("~/Home_images/logo-black - Copy.png")" alt="Program Icon" width="150" height="40" class="d-inline-block align-top mr-2">
+            Pomodoro Timer
+        </a>
+        <a href="@Url.Action("Index", "Dashboard")" class="back-button">
+            <button class="btn-23">
+                <span class="text">Back</span>
+                <span aria-hidden="" class="marquee">Home</span>
+            </button>
+        </a>
+        
+
+    </nav>
+
     <div class="container pomodoro-container">
         <div class="row justify-content-center">
             <div class="col-md-6">
