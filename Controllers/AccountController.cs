@@ -22,6 +22,17 @@ namespace TESTT.Controllers
             _context = context;
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Logout()
+        {
+            // Clear the user's session
+            HttpContext.Session.Clear();
+
+            // Redirect to the Login page
+            return RedirectToAction("Login", "Account");
+        }
+
         // GET: AccountController
         public ActionResult Index()
         {

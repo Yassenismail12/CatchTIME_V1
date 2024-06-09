@@ -9,6 +9,7 @@ namespace TESTT.Controllers
     public class DashboardController : Controller
     {
         private readonly CatchTIMEContext _context;
+        
 
         public DashboardController(CatchTIMEContext context)
         {
@@ -62,8 +63,23 @@ namespace TESTT.Controllers
 				return RedirectToAction("Login", "Account");
 			}
 		}
+        // Action to load the Pomodoro partial view with today's tasks
+        public ActionResult LoadPomodoro()
+        {
+            // Get today's date
+            var today = DateTime.Today;
 
-	}
+            // Fetch today's tasks from the database
+            var tasks = _context.Tasks.Where(t => t.TaskDate == today).ToList();
+
+            // Store the tasks in ViewBag to be used in the view
+            ViewBag.Tasks = tasks;
+
+            // Return the partial view from the Pomodoro folder
+            return PartialView("~/Views/Pomodoro/_PomodoroPartial.cshtml", tasks);
+        }
+
+    }
 
 	// Define a view model to hold the data for the view
 	public class AdminHubViewModel
@@ -74,4 +90,6 @@ namespace TESTT.Controllers
         public List<object> RecentOrders { get; set; }
         public List<object> TodoList { get; set; }
     }
+
+
 }

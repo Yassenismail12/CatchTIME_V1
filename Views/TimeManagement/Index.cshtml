@@ -68,10 +68,13 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="logout">
-                    <i class='bx bxs-log-out-circle'></i>
-                    <span class="text">Logout</span>
-                </a>
+                <!-- Change this to a form to handle the logout -->
+                <form asp-action="Logout" asp-controller="Account" method="post" class="logout-form">
+                    <button type="submit" class="logout">
+                        <i class='bx bxs-log-out-circle'></i>
+                        <span class="text">Logout</span>
+                    </button>
+                </form>
             </li>
         </ul>
     </aside>

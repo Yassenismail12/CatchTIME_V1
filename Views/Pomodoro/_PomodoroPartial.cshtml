@@ -1,0 +1,100 @@
+﻿@model IEnumerable<TESTT.Models.Task>
+
+<div class="container pomodoro-container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h1 class="mb-0">Pomodoro Timer</h1>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <h2 id="timer" class="timer">00:00</h2>
+                    </div>
+                    <div class="form-group">
+                        <label for="pomodoroDuration">Set Pomodoro Duration (minutes):</label>
+                        <input type="number" class="form-control" id="pomodoroDuration" value="25" min="1">
+                    </div>
+                    <form id="chooseTaskForm">
+                        <div class="form-group">
+                            <label for="taskId">Choose a Task:</label>
+                            <select class="form-control" name="taskId" id="taskId">
+                                @foreach (var task in Model)
+                                {
+                                    <option value="@task.TaskId">@task.TaskTitle</option>
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Start Pomodoro</button>
+                    </form>
+                    <button id="stopPomodoroBtn" class="btn btn-danger btn-block mt-3" style="display: none;">Stop Pomodoro</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        var timerInterval;
+
+        $('#chooseTaskForm').submit(function (e) {
+            e.preventDefault();
+            var taskId = $('#taskId').val();
+            var pomodoroDuration = $('#pomodoroDuration').val();
+
+            $.ajax({
+                type: "POST",
+                url: '/Pomodoro/StartPomodoro',
+                data: { taskId: taskId, minutes: pomodoroDuration },
+                success: function (response) {
+                    $('#stopPomodoroBtn').show();
+                    $('#chooseTaskForm').hide();
+                    startTimer(pomodoroDuration * 60);
+                },
+                error: function (xhr, status, error) {
+                    alert("Error starting Pomodoro: " + error);
+                }
+            });
+        });
+
+        $('#stopPomodoroBtn').click(function () {
+            var taskId = $('#taskId').val();
+
+            $.ajax({
+                type: "POST",
+                url: '/Pomodoro/StopPomodoro',
+                data: { taskId: taskId },
+                success: function (response) {
+                    $('#stopPomodoroBtn').hide();
+                    $('#chooseTaskForm').show();
+                    clearInterval(timerInterval);
+                },
+                error: function (xhr, status, error) {
+                    alert("Error stopping Pomodoro: " + error);
+                }
+            });
+        });
+
+        function startTimer(duration) {
+            var timer = duration, minutes, seconds;
+            timerInterval = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                $('#timer').text(minutes + ":" + seconds);
+
+                if (--timer < 0) {
+                    clearInterval(timerInterval);
+                    alert("Pomodoro session ended!");
+                    $('#stopPomodoroBtn').click();
+                }
+            }, 1000);
+        }
+    </script>
+}

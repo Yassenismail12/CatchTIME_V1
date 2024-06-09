@@ -19,7 +19,8 @@
     <!-- SIDEBAR -->
     <aside id="sidebar" role="navigation">
         <a href="@Url.Action("Index", "Dashboard")" class="brand">
-            <img src="@Url.Content("~/Dashboard_Images/Main.png")" alt="CatchTIME" width="200" height="200" id="logo-collapse">
+            <img src="@Url.Content("~/Dashboard_Images/Main.png")" alt="CatchTIME" width="200" height="200"
+                 id="logo-collapse">
         </a>
         <ul class="side-menu top">
             <li class="active">
@@ -28,11 +29,16 @@
                     <span class="text">Dashboard</span>
                 </a>
             </li>
-            <li>
-                <a href="@Url.Action("Index", "Tasks")">
+            <li class="tasks-dropdown">
+                <a href="@Url.Action("Index","TimeManagement")">
                     <i class='bx bxs-check-circle'></i>
                     <span class="text">Tasks</span>
                 </a>
+                <ul class="dropdown-content">
+                    <li><a href="#">Today</a></li>
+                    <li><a href="#">Tomorrow</a></li>
+                    <li><a href="#">All</a></li>
+                </ul>
             </li>
             <li>
                 <a href="#">
@@ -41,13 +47,13 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="@Url.Action("Index","Pomodoro")">
                     <i class='bx bxs-timer'></i>
                     <span class="text">Pomodoro</span>
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="@Url.Action("Index","Cal")">
                     <i class='bx bxs-calendar'></i>
                     <span class="text">Calendar</span>
                 </a>
@@ -61,10 +67,13 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="logout">
-                    <i class='bx bxs-log-out-circle'></i>
-                    <span class="text">Logout</span>
-                </a>
+                <!-- Change this to a form to handle the logout -->
+                <form asp-action="Logout" asp-controller="Account" method="post" class="logout-form">
+                    <button type="submit" class="logout">
+                        <i class='bx bxs-log-out-circle'></i>
+                        <span class="text">Logout</span>
+                    </button>
+                </form>
             </li>
         </ul>
     </aside>
@@ -228,6 +237,24 @@
     </section>
     <!-- CONTENT -->
     <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#loadPomodoro').click(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '@Url.Action("LoadPomodoro", "Dashboard")',
+                    type: 'GET',
+                    success: function (data) {
+                        $('#dynamic-content').html(data);
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Error loading Pomodoro: " + error);
+                    }
+                });
+            });
+        });
+    </script>
     <script src="@Url.Content("~/js/Dashboard_js.js")"></script>
     @RenderBody()
 </body>
