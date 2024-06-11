@@ -13,21 +13,32 @@
             @Html.DisplayFor(model => model.ProjectTitle)
         </dd>
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ProjectNoOfTasks)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ProjectNoOfTasks)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ListId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ListId)
+        </dd>
+        <dt class="col-sm-2">
             Completion Percentage
         </dt>
         <dd class="col-sm-10" id="completionPercentage">
             @Model.CompletionPercentage.ToString("0.##") %
         </dd>
-        <!-- Add other fields as needed -->
     </dl>
 </div>
 
 <h4>Tasks</h4>
 <hr />
-<ul>
+<ul class="list-group">
     @foreach (var task in Model.Tasks)
     {
-        <li @(task.TaskStatus ? "class=completed-task" : "")>
+        <li class="list-group-item @(task.TaskStatus ? "completed-task" : "")">
             <input type="hidden" name="taskId" value="@task.TaskId" />
             <input type="checkbox" class="task-checkbox" data-task-id="@task.TaskId" data-task-status="@task.TaskStatus.ToString().ToLower()" @(task.TaskStatus ? "checked" : "") />
             <label>@task.TaskTitle</label>
@@ -35,15 +46,13 @@
     }
 </ul>
 
-<!-- Link to add a new task -->
-<div>
-    <a asp-action="Create" asp-controller="Task" asp-route-projectId="@Model.ProjectId">Add New Task</a>
+<div class="mt-3">
+    <a asp-action="Create" asp-controller="Task" asp-route-projectId="@Model.ProjectId" class="btn btn-primary">Add New Task</a>
 </div>
 
-<div>
-    <a asp-action="Index">Back to Projects</a>
+<div class="mt-3">
+    <a asp-action="Index" class="btn btn-secondary">Back to Projects</a>
 </div>
-
 
 @section Scripts {
     <script>

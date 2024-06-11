@@ -21,3 +21,10 @@ body {
     color: #888; /* Gray color */
     /* Add any additional styling you want for completed tasks */
 }
+
+/* site.css */
+.completed-task label {
+    text-decoration: line-through;
+    color: gray;
+}
+

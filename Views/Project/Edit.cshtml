@@ -2,17 +2,23 @@
 
 <h1>Edit Project</h1>
 
-<form asp-action="Edit">
+<form asp-action="Edit" class="mt-3">
     <input type="hidden" asp-for="ProjectId" />
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-    <div class="form-group">
+    <div class="form-group mb-3">
         <label asp-for="ProjectTitle" class="control-label"></label>
-        <input asp-for="ProjectTitle" class="form-control" />
+        <input asp-for="ProjectTitle" class="form-control" placeholder="Enter project title" />
         <span asp-validation-for="ProjectTitle" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
+    <div class="form-group mb-3">
+        <label asp-for="ProjectNoOfTasks" class="control-label"></label>
+        <input asp-for="ProjectNoOfTasks" class="form-control" placeholder="Enter number of tasks" />
+        <span asp-validation-for="ProjectNoOfTasks" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
         <label asp-for="ListId" class="control-label"></label>
         <select asp-for="ListId" asp-items="@(ViewBag.Lists)" class="form-control">
             <option value="">Select List</option>
@@ -22,6 +28,6 @@
 
     <div class="form-group">
         <input type="submit" value="Save" class="btn btn-primary" />
-        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        <a asp-action="Index" class="btn btn-secondary ml-2">Back to List</a>
     </div>
 </form>
