@@ -3,35 +3,29 @@
 <h1>Project Index</h1>
 
 <p>
-    <a asp-action="Create">Create New Project</a>
+    <a asp-action="Create" class="btn btn-primary">Create New Project</a>
 </p>
 
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
-            <th>
-                Project Title
-            </th>
-            <th>
-                Completion Percentage
-            </th>
-            <th></th>
+            <th>Project Title</th>
+            <th>Number of Tasks</th>
+            <th>Completion Percentage</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var project in Model)
         {
             <tr>
+                <td>@project.ProjectTitle</td>
+                <td>@project.ProjectNoOfTasks</td>
+                <td id="completionPercentage_@project.ProjectId">@project.CompletionPercentage.ToString("0.##") %</td>
                 <td>
-                    @Html.DisplayFor(modelItem => project.ProjectTitle)
-                </td>
-                <td id="completionPercentage_@project.ProjectId">
-                    @Html.DisplayFor(modelItem => project.CompletionPercentage) %
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@project.ProjectId">Details</a> |
-                    <a asp-action="Edit" asp-route-id="@project.ProjectId">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@project.ProjectId">Delete</a>
+                    <a asp-action="Details" asp-route-id="@project.ProjectId" class="btn btn-info btn-sm">Details</a>
+                    <a asp-action="Edit" asp-route-id="@project.ProjectId" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@project.ProjectId" class="btn btn-danger btn-sm">Delete</a>
                 </td>
             </tr>
         }
