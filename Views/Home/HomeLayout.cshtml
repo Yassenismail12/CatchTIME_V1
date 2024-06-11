@@ -27,10 +27,8 @@
                     <li class="nav-item"> <a class="nav-link" href="" data-scroll-nav="0">Home</a> </li>
                     <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="1">About</a> </li>
                     <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="2">Features</a> </li>
-                    <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="3">Team</a> </li>
-                    <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="4">Testimonials</a> </li>
-                    <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="5">Mission</a> </li>
-                    <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="6">Join</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="3">Mission</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="4">Join</a> </li>
                 </ul>
             </div>
         </div>
@@ -52,7 +50,7 @@
                                         <img src="@Url.Content("~/Home_images/appstore.png")" class="wow fadeInUp" data-wow-delay="0.4s" />
                                     </a>
                                 </li>
-                                <li><a href="@Url.Action("Create", "Account")"><img src="Home_images/playstore.png" class="wow fadeInUp" data-wow-delay="0.7s" /></a></li>
+                                <li><a href="@Url.Action("Create", "Account")"><img src="@Url.Content("Home_images/playstore.png")" class="wow fadeInUp" data-wow-delay="0.7s" /></a></li>
                             </ul>
                         </div>
                     </div>
@@ -60,7 +58,7 @@
                 </div>
             </div>
         </div>
-        <span class="svg-wave"> <img class="svg-hero" src="Home_images/applight-wave.svg"></span>
+        <span class="svg-wave"> <img class="svg-hero" src="@Url.Content("Home_images/applight-wave.svg")"></span>
     </section>
 
     <!-------Banner End------->
@@ -141,23 +139,6 @@
         </div>
     </section>
     <!-------About End------->
-    <!-------Video Start------->
-    <section class="video-section prelative text-center white">
-        <div class="section-padding video-overlay">
-            <div class="container">
-                <h3>Watch Now</h3>
-                <i class="fa fa-play" id="video-icon" aria-hidden="true"></i>
-                <div class="video-popup">
-                    <div class="video-src">
-                        <div class="iframe-src">
-                            <iframe src="https://www.youtube.com/embed/Ku52zNnft8k?rel=0&amp;showinfo=0" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-------Video End------->
     <!-------Features Start------->
     <section class="feature section-padding" data-scroll-index='2'>
         <div class="container">
@@ -166,56 +147,56 @@
                     <div class="sectioner-header text-center">
                         <h3>Features</h3>
                         <span class="line"></span>
-                        <p>Sed quis nisi nisi. Proin consectetur porttitor dui sit amet viverra. Fusce sit amet lorem faucibus, vestibulum ante in, pharetra ante.</p>
+                        <p>Ultimate tool for organizing, prioritizing, and optimizing your daily tasks. Our webapp is designed to help you make the most of your time with a comprehensive suite of features tailored to meet your productivity needs.</p>
                     </div>
                     <div class="section-content text-center">
                         <div class="row">
                             <div class="col-md-4 col-sm-12">
                                 <div class="media single-feature wow fadeInUp" data-wow-delay="0.2s">
                                     <div class="media-body text-right media-right-margin">
-                                        <h5>Fast Processing</h5>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididugnt ut labore</p>
+                                        <h5>To-Do Lists</h5>
+                                        <p>Create, organize, and manage your daily tasks with easy-to-use to-do lists.</p>
                                     </div>
-                                    <div class="media-right icon-border"> <span class="fa fa-bolt" aria-hidden="true"></span> </div>
+                                    <div class="media-right icon-border"> <span class="fa-solid fa-check-double" aria-hidden="true"></span> </div>
                                 </div>
                                 <div class="media single-feature wow fadeInUp" data-wow-delay="0.4s">
                                     <div class="media-body text-right media-right-margin">
-                                        <h5>Low Power Consuming</h5>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididugnt ut labore</p>
+                                        <h5>Calendar Integeration</h5>
+                                        <p>Seamlessly integrate your tasks and events with Google Calendar</p>
                                     </div>
-                                    <div class="media-right icon-border"> <span class="fa fa-battery-full" aria-hidden="true"></span> </div>
+                                    <div class="media-right icon-border"> <span class="fa-regular fa-calendar" aria-hidden="true"></span> </div>
                                 </div>
                                 <div class="media single-feature wow fadeInUp" data-wow-delay="0.6s">
                                     <div class="media-body text-right media-right-margin">
-                                        <h5>Wifi Compatibility</h5>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididugnt ut labore</p>
+                                        <h5>Time Tracking</h5>
+                                        <p>Utilize the Pomodoro technique to break work into intervals with breaks in between.</p>
                                     </div>
-                                    <div class="media-right icon-border"> <span class="fa fa-wifi" aria-hidden="true"></span> </div>
+                                    <div class="media-right icon-border"> <span class="fa-solid fa-clock" aria-hidden="true"></span> </div>
                                 </div>
                             </div>
                             <div class="col-md-4 d-none d-md-block d-lg-block">
-                                <div class="feature-mobile"> <img src="images/iphone-screen-with-shadow.png" class="img-fluid wow fadeInUp" /> </div>
+                                <div class="feature-mobile"> <img src="@Url.Content("~/Home_images/iphone-screengg.png")" class="img-fluid wow fadeInUp" /> </div>
                             </div>
                             <div class="col-md-4 col-sm-12">
                                 <div class="media single-feature wow fadeInUp" data-wow-delay="0.2s">
-                                    <div class="media-left icon-border media-right-margin"> <span class="fa fa-check-double" aria-hidden="true"></span> </div>
+                                    <div class="media-left icon-border media-right-margin"> <span class="fa-solid fa-list-check" aria-hidden="true"></span> </div>
                                     <div class="media-body text-left">
-                                        <h5>Regular Updates</h5>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididugnt ut labore</p>
+                                        <h5>Project Management</h5>
+                                        <p>Break down large projects into manageable tasks and milestones</p>
                                     </div>
                                 </div>
                                 <div class="media single-feature wow fadeInUp" data-wow-delay="0.4s">
-                                    <div class="media-left icon-border media-right-margin"> <span class="fa fa-dollar-sign" aria-hidden="true"></span> </div>
+                                    <div class="media-left icon-border media-right-margin"> <span class="fa-solid fa-pen-nib" aria-hidden="true"></span> </div>
                                     <div class="media-body text-left">
-                                        <h5>Save Money</h5>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididugnt ut labore</p>
+                                        <h5>User-Friendly Interface</h5>
+                                        <p>Enjoy a consistent and optimized experience across all devices, including desktops, tablets, and smartphones</p>
                                     </div>
                                 </div>
                                 <div class="media single-feature wow fadeInUp" data-wow-delay="0.6s">
-                                    <div class="media-left icon-border media-right-margin"> <span class="fa fa-hdd" aria-hidden="true"></span> </div>
+                                    <div class="media-left icon-border media-right-margin"> <span class="fa-solid fa-lock" aria-hidden="true"></span> </div>
                                     <div class="media-body text-left">
-                                        <h5>Unlimited Storage</h5>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididugnt ut labore</p>
+                                        <h5>Security and Privacy</h5>
+                                        <p>Protect your data with industry-standard encryption protocols.</p>
                                     </div>
                                 </div>
                             </div>
@@ -226,84 +207,7 @@
         </div>
     </section>
     <!-------Features End------->
-    <!-------Team Start------->
-    <section class="team section-padding" data-scroll-index='3'>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="sectioner-header text-center">
-                        <h3>Our Team</h3>
-                        <span class="line"></span>
-                        <p>Sed quis nisi nisi. Proin consectetur porttitor dui sit amet viverra. Fusce sit amet lorem faucibus, vestibulum ante in, pharetra ante.</p>
-                    </div>
-                    <div class="section-content text-center">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="team-detail wow bounce" data-wow-delay="0.2s">
-                                    <img src="images/user1.jpg" class="img-fluid" />
-                                    <h4>Nitu Singh</h4>
-                                    <p>Marketing Specialist</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="team-detail wow bounce" data-wow-delay="0.4s">
-                                    <img src="images/user2.jpg" class="img-fluid" />
-                                    <h4>Yogesh Singh</h4>
-                                    <p>CEO & Founder</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="team-detail wow bounce" data-wow-delay="0.6s">
-                                    <img src="images/user3.jpg" class="img-fluid" />
-                                    <h4>Nisha Sharma</h4>
-                                    <p>Web Developer</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-------Team End------->
-    <!-------Testimonial Start------->
-    <section class="testimonial section-padding" data-scroll-index='4'>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="sectioner-header text-center white">
-                        <h3>Testimonials</h3>
-                        <span class="line"></span>
-                        <p class="white">Sed quis nisi nisi. Proin consectetur porttitor dui sit amet viverra. Fusce sit amet lorem faucibus, vestibulum ante in, pharetra ante.</p>
-                    </div>
-
-                    <div class="section-content">
-                        <div class="row">
-                            <div class="offset-md-2 col-md-8 col-sm-12">
-                                <div class="slider">
-                                    <div class="slider-item">
-                                        <div class="test-img"><img src="images/user1.jpg" alt="Placeholder" width="157" height="157"></div>
-                                        <div class="test-text"><span class="title"><span>John Michal</span> Digital Designer</span> Consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam eratvo lutpat.</div>
-                                    </div>
-                                    <div class="slider-item">
-                                        <div class="test-img"><img src="images/user3.jpg" alt="Placeholder" width="157" height="157"></div>
-                                        <div class="test-text"><span class="title"><span>Steve Smith</span> App User</span> Euismod tincidunt ut laoreet dolore magna aliquam eratvo lutpat. Ut wisi enim ad minim veniam, quis nostrud v</div>
-                                    </div>
-                                    <div class="slider-item">
-                                        <div class="test-img"><img src="images/user3.jpg" alt="Placeholder" width="157" height="157"></div>
-                                        <div class="test-text"><span class="title"><span>Gordon Shaw</span> Blogger</span> Consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam eratvo lutpat. Ut wisi enim ad minim veniam, quis nostrud v</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-------Testimonial End------->
     <section class="team section-padding" data-scroll-index='3'>
         <div class="container">
             <div class="row">
@@ -318,7 +222,7 @@
         </div>
     </section>
     <!-------Download End------->
-    <section class="download section-padding">
+    <section class="download section-padding" data-scroll-index='4'>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">

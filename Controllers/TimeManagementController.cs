@@ -263,6 +263,19 @@ namespace TESTT.Controllers
             }
         }
         [HttpPost]
+        public IActionResult DeleteList(int id)
+        {
+            var list = _context.Lists.FirstOrDefault(l => l.ListId == id);
+            if (list == null)
+            {
+                return NotFound();
+            }
+
+            _context.Lists.Remove(list);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
         public IActionResult DeleteTask(int id)
         {
             var task = _context.Tasks.FirstOrDefault(t => t.TaskId == id);
