@@ -46,6 +46,5 @@ namespace TESTT.Models
         public virtual List? List { get; set; }
         public virtual Project? Project { get; set; }
         public virtual UserTable? User { get; set; }
-       
     }
 }

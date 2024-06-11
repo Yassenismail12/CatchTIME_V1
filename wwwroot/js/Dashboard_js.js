@@ -11,6 +11,29 @@ allSideMenu.forEach(item => {
     });
 });
 
+// Function to retrieve tasks via AJAX
+function getTasks() {
+    $.ajax({
+        url: '/Tasks/GetTasks', // URL to your controller action method that retrieves tasks
+        type: 'GET',
+        success: function (data) {
+            // Clear existing tasks
+            $('#t-container').empty();
+            // Iterate over retrieved tasks and append to the container
+            data.forEach(function (task) {
+                $('#t-container').append('<p class="Lst">' + task.TaskTitle + '</p>');
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error('Error retrieving tasks:', error);
+        }
+    });
+}
+
+// Call getTasks function when the page loads
+$(document).ready(function () {
+    getTasks();
+});
 // TOGGLE SIDEBAR
 const menuBar = document.querySelector('#content nav .bx.bx-menu');
 const sidebar = document.getElementById('sidebar');
