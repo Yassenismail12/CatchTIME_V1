@@ -7,6 +7,7 @@ namespace TESTT.Models
 {
     public partial class CatchTIMEContext : DbContext
     {
+
         public CatchTIMEContext()
         {
         }
@@ -16,17 +17,17 @@ namespace TESTT.Models
         {
         }
 
-        public virtual DbSet<List> Lists { get; set; } = null!;
-        public virtual DbSet<Project> Projects { get; set; } = null!;
-        public virtual DbSet<Task> Tasks { get; set; } = null!;
-        public virtual DbSet<UserTable> UserTables { get; set; } = null!;
+        public DbSet<List> Lists { get; set; } = null!;
+        public DbSet<Project> Projects { get; set; } = null!;
+        public DbSet<Task> Tasks { get; set; } = null!;
+        public DbSet<UserTable> UserTables { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-32VL26T\\SQLEXPRESS;Initial Catalog=CatchTime;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+                optionsBuilder.UseSqlServer("Data Source=DESKTOP-SQP99UK;Initial Catalog=CatchTime;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
             }
             optionsBuilder.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()));
         }

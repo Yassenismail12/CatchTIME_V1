@@ -15,5 +15,6 @@ namespace TESTT.ViewModels
         public int AllListId { get; set; } // ID for the "All" list
         public int TodayListId { get; set; } // ID for the "Today" list
         public int TomorrowListId { get; set; } // ID for the "Tomorrow" list
+        public Task SelectedTask { get; set; }
     }
 }

@@ -45,30 +45,135 @@ body {
     overflow-x: hidden;
 }
 
-
-.btn-list {
+.container-wrapper {
     display: inline-block;
-    padding: 10px 20px;
-    margin: 5px;
-    background-color: #007bff; /* Primary color */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+    vertical-align: top;
+    position: relative;
+    margin: 20px;
 }
 
-    .btn-list:hover {
-        background-color: #0056b3; /* Darker shade of the primary color */
-    }
+.title-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-    .btn-list:focus {
-        outline: none;
-        box-shadow: 0 0 5px rgba(0,123,255,0.5);
-    }
+#details-container {
+    font-family: var(--poppins);
+}
+
+#l-container, #t-container, #details-container {
+    height: 700px;
+    width: 300px;
+    margin-top: 10px;
+    border-radius: 15px;
+    box-shadow: 1px 2px 10px 0px rgba(0,0,0,0.3);
+    background: rgb(143, 143, 143); /* Old browsers */
+    background: -moz-linear-gradient(45deg, rgb(194, 197, 188) 0%, rgba(192,234,103,1) 99%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(45deg, rgb(53, 138, 198) 0%,rgba(192,234,103,1) 99%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(45deg, rgb(27, 139, 186) 0%,rgb(255, 255, 255) 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9bc635', endColorstr='#c0ea67',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+#Lst {
+    font-family: var(--poppins);
+    padding: 10px;
+    font-weight: bold;
+}
+
+p {
+    font-family: var(--poppins);
+    padding: 10px;
+    font-weight: bold;
+}
+
+.plus {
+    font-size: 18px;
+    cursor: pointer;
+}
+
+#logo-collapse {
+    margin-top: 80px;
+    margin-left: 10px;
+}
+
+.title {
+    font-family: var(--poppins);
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.task-detail {
+    padding: 20px;
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.task-priority {
+    font-size: 16px;
+    font-weight: normal;
+    margin-left: 10px;
+    color: var(--red);
+}
+
+.task-date {
+    font-size: 10px;
+    color: var(--dark-grey);
+}
+
+.task-description {
+    font-size: 14px;
+    margin-top: 10px;
+    color: var(--dark);
+}
+
+.task-difficulty {
+    font-size: 14px;
+    margin-top: 5px;
+    color: var(--dark-grey);
+}
+
+.task-status {
+    font-size: 14px;
+    margin-top: 5px;
+    color: var(--blue);
+}
+
+hr {
+    margin: 20px 0;
+    border: none;
+    border-top: 1px solid var(--grey);
+}
+
+.task-notes label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+#notes {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid var(--grey);
+    border-radius: 5px;
+    font-family: var(--poppins);
+    resize: none;
+    max-height: calc(100% - 200px); /* Adjust this value to fit your design */
+    overflow: auto;
+}
 
 /* SIDEBAR */
-#sidebar{
+#sidebar {
     position: fixed;
     top: 0;
     left: 0;
@@ -102,7 +207,6 @@ body {
         left: 0;
         background: var(--light);
         z-index: 500;
-
         padding-bottom: 20px;
         box-sizing: content-box;
     }
@@ -192,10 +296,6 @@ body {
     }
 /* SIDEBAR */
 
-
-
-
-
 /* CONTENT */
 #content {
     position: relative;
@@ -208,9 +308,6 @@ body {
     width: calc(100% - 60px);
     left: 60px;
 }
-
-
-
 
 /* NAVBAR */
 #content nav {
@@ -351,10 +448,6 @@ body {
     }
 /* NAVBAR */
 
-
-
-
-
 /* MAIN */
 #content main {
     width: 100%;
@@ -412,9 +505,6 @@ body {
             font-weight: 500;
         }
 
-
-
-
     #content main .box-info {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -465,10 +555,6 @@ body {
             #content main .box-info li .text p {
                 color: var(--dark);
             }
-
-
-
-
 
     #content main .table-data {
         display: flex;
@@ -562,7 +648,6 @@ body {
                         background: var(--orange);
                     }
 
-
         #content main .table-data .todo {
             flex-grow: 1;
             flex-basis: 300px;
@@ -601,14 +686,6 @@ body {
 /* MAIN */
 /* CONTENT */
 
-
-
-
-
-
-
-
-
 @media screen and (max-width: 768px) {
     #sidebar {
         width: 200px;
@@ -623,11 +700,6 @@ body {
             display: none;
         }
 }
-
-
-
-
-
 
 @media screen and (max-width: 576px) {
     #content nav form .form-input input {

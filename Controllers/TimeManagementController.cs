@@ -45,7 +45,16 @@ namespace TESTT.Controllers
         {
             return await _context.Tasks.Where(t => t.UserId == userId && t.TaskDate == DateTime.Today.AddDays(1)).ToListAsync();
         }
+        
+        [HttpGet]
+        public async Task<JsonResult> GetTasksByList(int listId)
+        {
+            var tasks = listId == 0
+                ? await _context.Tasks.ToListAsync()
+                : await _context.Tasks.Where(t => t.ListId == listId).ToListAsync();
 
+            return Json(tasks);
+        }
         private async Task<List<Task>> GetTasksByListIdAndUserIdAsync(int listId, int userId)
         {
             var list = await _context.Lists
@@ -77,7 +86,8 @@ namespace TESTT.Controllers
                 TomorrowTasks = tomorrowTasks,
                 AllListId = -1,
                 TodayListId = -2,
-                TomorrowListId = -3
+                TomorrowListId = -3,
+                SelectedTask = null
             };
 
             return View(viewModel);
